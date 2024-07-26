@@ -5,6 +5,7 @@ description = "Home weather station with Raspberry Pi Pico & Kitronik Air Qualit
 authors = ["ClareGarrard <19202742+ClareGarrard@users.noreply.github.com>"]
 license = "MIT License"
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"

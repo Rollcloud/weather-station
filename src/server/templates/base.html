@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+    <title>{% block title %}{% endblock %} - Weather</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon"  href="{{ url_for('static', filename='favicon.ico') }}">
+  </head>
+
+
+  <body>
+    <nav>
+      <h1>Weather Station</h1>
+    </nav>
+    <section class="content">
+      <header>
+        {% block header %}{% endblock %}
+      </header>
+      {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+      {% block content %}{% endblock %}
+    </section>
+
+  </body>
+
+</html>

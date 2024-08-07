@@ -2,7 +2,7 @@ import network
 import time
 import urequests
 
-SERVER_URL = 'localhost'
+SERVER_URL = 'localhost'+'/data'
 WIFI_NAME = 'Wifi_name'
 WIFI_PASSWORD = 'Wifi_password'
 
@@ -14,7 +14,7 @@ while not wlan.isconnected() and wlan.status() >= 0:
     time.sleep(1)
 
 # #GET
-# r = urequests.get("server_address")
+# r = urequests.get(SERVER_URL)
 # print(r.content)
 # r.close()
 # wlan.status() # should be 3

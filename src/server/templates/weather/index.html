@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Home{% endblock %}</h1>
+  <h1>{% block title %}{% endblock %}</h1>
 {% endblock %}
 
+{% block content %}
+<main class="px-3">
+  <h1>Indoor weather tracking</h1>
+  <p class="lead"> Indoor weather station for humidity, temperature, pressure, air quality, and eCO2</p>
+  <p class="lead">
+    <a href="/visualise" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Visualise</a>
+  </p>
+</main>
+{% endblock %}

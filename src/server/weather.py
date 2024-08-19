@@ -10,10 +10,14 @@ bp = Blueprint('weather', __name__)
 
 @bp.route('/')
 def index():
-    return 'Welcome to the homepage!'
+    # return 'Welcome to the homepage!'
     
     # db = get_db()
-    # return render_template('weather/index.html')
+    return render_template('weather/index.html')
+
+@bp.route('/visualise')
+def visualise():
+    return render_template('weather/visualise.html')
 
 @bp.route('/data', methods=('POST',))
 def data(): 
@@ -22,7 +26,7 @@ def data():
     # Print the data to the console
     print(data)
     # Save data to database
-    add_data(data['Timestamp'], data['Temperature (C)'], 0, 0, 0, 0)
-
-    # add_data(data['Timestamp'], data['Temperature (C)'], data['Pressure (Pa)'], data['Humidity (%)'], data['Air Quality (IAQ)'], data['eCO2 (ppm)'])  - full list 
+    # add_data(data['Timestamp'], data['Temperature (C)'], 0, 0, 0, 0) # test with timestamp & temp
+    add_data(data['Timestamp'], data['Temperature'], data['Pressure'], data['Humidity'], data['Air Quality'], data['eCO2'])  
+    # add_data(data['Timestamp'], data['Temperature (C)'], data['Pressure (Pa)'], data['Humidity (%)'], data['Air Quality (IAQ)'], data['eCO2 (ppm)'])  - full list with units
     return 'JSON received!'

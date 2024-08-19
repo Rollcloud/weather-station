@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Visualise{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<main class="px-3">
+
+  
+    <div class="album py-5 bg-dark">
+      <div class="container">
+  
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
+          <div class="col">
+            <div class="card shadow-sm">
+              <img src="{{ url_for('static', filename='placeholder_graph.jpg') }}" class="figure-img img-fluid rounded" alt="I am a graph">
+  
+              <div class="card-body">
+                <p class="card-text"> Humidity </p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col">
+            <div class="card shadow-sm">
+              <img src="{{ url_for('static', filename='placeholder_graph.jpg') }}" class="figure-img img-fluid rounded" alt="I am a graph">
+              <div class="card-body">
+                <p class="card-text">Temperature</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col">
+            <div class="card shadow-sm">
+              <img src="{{ url_for('static', filename='placeholder_graph.jpg') }}" class="figure-img img-fluid rounded" alt="I am a graph">  
+              <div class="card-body">
+                <p class="card-text">Pressure</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col">
+            <div class="card shadow-sm">
+              <img src="{{ url_for('static', filename='placeholder_graph.jpg') }}" class="figure-img img-fluid rounded" alt="I am a graph">  
+              <div class="card-body">
+                <p class="card-text">Air Quality</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col">
+            <div class="card shadow-sm">
+              <img src="{{ url_for('static', filename='placeholder_graph.jpg') }}" class="figure-img img-fluid rounded" alt="I am a graph">  
+              <div class="card-body">
+                <p class="card-text">eCO2</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+  
+  </main>
+  
+
+
+{% endblock %}
+
+
+

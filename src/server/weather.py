@@ -3,30 +3,34 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
-from server.db import get_db, add_data
+from server.db import get_db, add_data, retrieve_data
+
+import json
 
 bp = Blueprint('weather', __name__)
 
 
 @bp.route('/')
 def index():
-    # return 'Welcome to the homepage!'
-    
-    # db = get_db()
     return render_template('weather/index.html')
 
 @bp.route('/visualise')
 def visualise():
     return render_template('weather/visualise.html')
 
-@bp.route('/data', methods=('POST',))
-def data(): 
-    # Get the JSON data from the request
+@bp.route('/data', methods=('POST', ))
+def post_data(): 
     data = request.get_json()
-    # Print the data to the console
     print(data)
-    # Save data to database
-    # add_data(data['Timestamp'], data['Temperature (C)'], 0, 0, 0, 0) # test with timestamp & temp
     add_data(data['Timestamp'], data['Temperature'], data['Pressure'], data['Humidity'], data['Air Quality'], data['eCO2'])  
-    # add_data(data['Timestamp'], data['Temperature (C)'], data['Pressure (Pa)'], data['Humidity (%)'], data['Air Quality (IAQ)'], data['eCO2 (ppm)'])  - full list with units
     return 'JSON received!'
+
+@bp.route('/data', methods=('GET',))
+def get_data(): 
+    # Get the JSON data from the SQL database
+    results = retrieve_data()
+    results = [dict(row) for row in results]
+    # for row in results:
+    #     print(row['temperature'])
+    json_string = json.dumps(results)
+    return json_string

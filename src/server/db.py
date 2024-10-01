@@ -38,6 +38,15 @@ def add_data(timestamp, temperature, pressure, humidity, air_quality, eCO2):
     db.commit()
 
 
+def retrieve_data():
+    db = get_db()
+    return db.execute(
+        'SELECT cast(timestamp as text) as timestamp, temperature, pressure, humidity, air_quality, eCO2'
+        ' FROM weather'
+        ' ORDER BY timestamp DESC'
+        ).fetchall()
+
+
 @click.command('init-db')
 def init_db_command():
     """Clear the existing data and create new tables."""

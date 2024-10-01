@@ -14,12 +14,12 @@ Home weather station with Raspberry Pi Pico &amp; Kitronik Air Quality Board
 flask --app server run --debug --host=0.0.0.0
 ```
 
-* The ```rp2``` directory mirrors the scripts that will go onto the Raspberry Pi. 
+* The ```rp2``` directory mirrors the scripts that will go onto the Raspberry Pi Pico. 
 
 # Set up
 
 * Copy scripts from ```rp2``` onto Raspberry Pi. 
-* Change constants at the top of ```send_data.py```:
+* Change constants at the top of the copy of ```send_data.py``` on the Pico:
 ```
 SERVER_URL = 'localhost'+'/data'
 WIFI_NAME = 'Wifi_name'

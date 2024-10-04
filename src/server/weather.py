@@ -2,13 +2,11 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
 from werkzeug.exceptions import abort
-
 from server.db import get_db, add_data, retrieve_data
-
+from server.graphs import default_graph, easy_linegraph
 import json
 
 bp = Blueprint('weather', __name__)
-
 
 @bp.route('/')
 def index():
@@ -30,7 +28,13 @@ def get_data():
     # Get the JSON data from the SQL database
     results = retrieve_data()
     results = [dict(row) for row in results]
-    # for row in results:
-    #     print(row['temperature'])
     json_string = json.dumps(results)
     return json_string
+
+@bp.route('/test_graph', methods=('GET',))
+def display_graph():
+    return default_graph()
+
+@bp.route('/graph', methods=('GET',))
+def display_weather_data():
+    return easy_linegraph()

@@ -1,12 +1,13 @@
 import time
 from machine import Pin, I2C
 from micropython_sht4x import sht4x
-import urequests as requests
 import network
+import urequests
 
 WIFI_NAME = "Wifi_name"
 WIFI_PASSWORD = "Wifi_password"
 SERVER = "http://localhost:5000"
+UPDATE_PERIOD = 60  # seconds
 
 # Connect to WiFi
 wlan = network.WLAN(network.STA_IF)
@@ -23,6 +24,9 @@ sht.temperature_precision = sht4x.LOW_PRECISION
 
 while True:
     temperature, relative_humidity = sht.measurements
+    temperature = round(temperature, 2)
+    relative_humidity = round(relative_humidity, 2)
+
     payload = {
         "Timestamp": time.time(),
         "Temperature": temperature,
@@ -32,7 +36,6 @@ while True:
         "eCO2": None,
     }
     headers = {"Content-Type": "application/json"}
-    res = requests.post(url=SERVER + "/data", headers=headers, json=payload)
+    res = urequests.post(url=SERVER + "/data", headers=headers, json=payload)
 
-    print(payload)
-    time.sleep(0.5)
+    time.sleep(UPDATE_PERIOD)

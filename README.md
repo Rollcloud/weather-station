@@ -25,3 +25,21 @@ SERVER_URL = 'localhost'+'/data'
 WIFI_NAME = 'Wifi_name'
 WIFI_PASSWORD = 'Wifi_password'
 ```
+
+# Sensor Packages
+
+## Pico + SHT41
+
+### Hardware
+
+- [Pico W](https://thepihut.com/products/raspberry-pi-pico-w)
+- [PiCowbell Proto](https://thepihut.com/products/adafruit-picowbell-proto-for-pico-reset-button-stemma-qt)
+- [Adafruit Sensirion SHT41 Temperature & Humidity Sensor](https://thepihut.com/products/adafruit-sensirion-sht41-temperature-humidity-sensor-stemma-qt-qwiic)
+
+### Software
+
+Setup the software by installing [jposada202020's MicroPython Driver for the SHT4X Sensors](https://micropython-sht4x.readthedocs.io/):
+
+```sh
+mpremote mip install github:jposada202020/MicroPython_SHT4X
+```

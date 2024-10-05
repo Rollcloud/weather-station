@@ -43,3 +43,18 @@ Setup the software by installing [jposada202020's MicroPython Driver for the SHT
 ```sh
 mpremote mip install github:jposada202020/MicroPython_SHT4X
 ```
+
+Change constants at the top of `src/rp2_sht41/main.py` as required:
+
+```
+WIFI_NAME = "Wifi_name"
+WIFI_PASSWORD = "Wifi_password"
+SERVER = "http://localhost:5000"
+UPDATE_PERIOD = 60  # seconds
+```
+
+Copy all the files from `src/rp2_sht41` onto the root of the Pico:
+
+```sh
+mpremote cp src/rp2_sht41/* :
+```

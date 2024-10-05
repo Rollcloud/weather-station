@@ -3,11 +3,14 @@ from machine import Pin, I2C
 from micropython_sht4x import sht4x
 import network
 import urequests
+import errno
 
 WIFI_NAME = "Wifi_name"
 WIFI_PASSWORD = "Wifi_password"
 SERVER = "http://localhost:5000"
 UPDATE_PERIOD = 60  # seconds
+
+led = Pin("LED", Pin.OUT)
 
 
 def connect_to_wifi(wifi_name, wifi_password):
@@ -20,7 +23,7 @@ def connect_to_wifi(wifi_name, wifi_password):
     If the connection is successful, the LED will turn off and the IP address will be printed.
     If the connection fails, the LED will turn on and an error will be raised.
     """
-    led = Pin("LED", Pin.OUT)
+    global led
     led.on()
 
     wlan = network.WLAN(network.STA_IF)
@@ -40,7 +43,7 @@ def connect_to_wifi(wifi_name, wifi_password):
     # Handle connection error
     if wlan.status() != 3:
         led.on()
-        raise RuntimeError("network connection failed")
+        print("network connection failed")
     else:
         led.off()
         print("connected")
@@ -70,12 +73,25 @@ while True:
     }
     headers = {"Content-Type": "application/json"}
     try:
+        # Send data to the server, flash the LED while waiting
+        led.on()
         response = urequests.post(url=SERVER + "/data", headers=headers, json=payload)
         response.close()
-    except Exception:
+        print("Payload successfully sent")
+    except OSError as e:
+        if e.errno == errno.ECONNABORTED:
+            print("Connection aborted (ECONNABORTED)")
+            print("Server not found")
+        else:
+            print("Error sending payload:", e)
+    except Exception as e:
+        print("Error sending payload:", e)
         # Reconnect to WiFi if the connection is lost
+        print("could not connect (status = " + str(wlan.status()) + ")")
         if wlan.status() < 0 or wlan.status() >= 3:
             wlan.disconnect()
             wlan = connect_to_wifi(WIFI_NAME, WIFI_PASSWORD)
+    finally:
+        led.off()
 
     time.sleep(UPDATE_PERIOD)

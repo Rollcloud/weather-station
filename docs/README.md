@@ -7,6 +7,8 @@ Home weather station with Raspberry Pi Pico &amp; Kitronik Air Quality Board
 ![IAQ](https://img.shields.io/badge/IAQ-orange)
 ![eCO2](https://img.shields.io/badge/eCO2-ppm-teal)
 
+![Weather station home](Weather_station_home.png)
+
 # Development
 
 * To run the server go to the ```src``` directory and type:
@@ -27,9 +29,9 @@ poetry install
 ```
 
 ## SQLite Database
-Initialise the SQLite database with:
+From the `src` directory, initialise the SQLite database with:
 ```
-flask --app flaskr init-db
+flask --app server init-db
 ```
 The database will appear in the `instance` directory as `weather.sqlite`
 

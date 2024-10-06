@@ -18,6 +18,25 @@ flask --app server run --debug --host=0.0.0.0
 
 # Set up
 
+## Poetry
+To set up poetry environment:
+```
+poetry init
+poetry shell
+poetry install
+```
+
+## SQLite Database
+Initialise the SQLite database with:
+```
+flask --app flaskr init-db
+```
+The database will appear in the `instance` directory as `weather.sqlite`
+
+# Sensor Packages
+
+## Raspberry Pi Pico W + Kitronik Air Quality Board
+
 * Copy scripts from ```rp2``` onto Raspberry Pi. 
 * Change constants at the top of the copy of ```send_data.py``` on the Pico:
 ```
@@ -25,8 +44,6 @@ SERVER_URL = 'localhost'+'/data'
 WIFI_NAME = 'Wifi_name'
 WIFI_PASSWORD = 'Wifi_password'
 ```
-
-# Sensor Packages
 
 ## Pico + SHT41
 

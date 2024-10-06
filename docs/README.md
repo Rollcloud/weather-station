@@ -7,7 +7,7 @@ Home weather station with Raspberry Pi Pico &amp; Kitronik Air Quality Board
 ![IAQ](https://img.shields.io/badge/IAQ-orange)
 ![eCO2](https://img.shields.io/badge/eCO2-ppm-teal)
 
-![Weather station home](docs/Weather_station_home.png)
+![Weather station home](Weather_station_home.png)
 
 # Development
 

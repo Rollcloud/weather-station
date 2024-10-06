@@ -16,9 +16,11 @@ matplotlib = "^3.9.1"
 seaborn = "^0.13.2"
 
 [tool.poetry.group.dev.dependencies]
+click = "^8.1.2"
 ruff = "^0.5.5"
 mpremote = "^1.23.0"
 pytest = "^8.3.2"
+pyyaml = "^6.0"
 
 [build-system]
 requires = ["poetry-core"]

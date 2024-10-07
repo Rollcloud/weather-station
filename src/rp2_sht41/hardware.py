@@ -13,7 +13,7 @@ def read_vsys():
 
     Source: https://www.reddit.com/r/raspberrypipico/comments/xalach/comment/ipigfzu/
     """
-    conversion_factor = 3 * 3.3 / 65535
+    CONVERSION_FACTOR = 3 * 3.3 / 65535
     wlan = network.WLAN(network.STA_IF)
     wlan_active = wlan.active()
 
@@ -26,10 +26,17 @@ def read_vsys():
 
         # Reconfigure pin 29 as an input.
         Pin(29, Pin.IN)
-
         vsys = ADC(29)
-        voltage = vsys.read_u16() * conversion_factor
-        return round(voltage, 3)
+
+        # Take the average of 5 voltage readings
+        readings = []
+        for _ in range(5):
+            time.sleep(0.1)  # Small delay before reading
+            voltage = vsys.read_u16() * CONVERSION_FACTOR
+            readings.append(voltage)
+
+        average_voltage = sum(readings) / len(readings)
+        return round(average_voltage, 3)
 
     finally:
         # Restore the pin state and possibly reactivate WLAN

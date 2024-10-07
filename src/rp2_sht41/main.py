@@ -1,5 +1,5 @@
 import time
-from machine import Pin, I2C
+from machine import Pin, I2C, unique_id
 from micropython_sht4x import sht4x
 import network
 import urequests
@@ -9,6 +9,9 @@ WIFI_NAME = "Wifi_name"
 WIFI_PASSWORD = "Wifi_password"
 SERVER = "http://localhost:5000"
 UPDATE_PERIOD = 60  # seconds
+
+# pico-specific hardware-based unique ID
+uid = "".join("{:02x}".format(x) for x in unique_id())
 
 led = Pin("LED", Pin.OUT)
 
@@ -59,17 +62,16 @@ sht = sht4x.SHT4X(i2c)
 sht.temperature_precision = sht4x.LOW_PRECISION
 
 while True:
+    location = 1  # integer from 0 to 8
     temperature, relative_humidity = sht.measurements
     temperature = round(temperature, 2)
     relative_humidity = round(relative_humidity, 2)
 
     payload = {
-        "Timestamp": time.time(),
+        "UID": uid,
+        "Location": location,
         "Temperature": temperature,
-        "Pressure": None,
         "Humidity": relative_humidity,
-        "Air Quality": None,
-        "eCO2": None,
     }
     headers = {"Content-Type": "application/json"}
     try:

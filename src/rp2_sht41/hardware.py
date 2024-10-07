@@ -28,7 +28,8 @@ def read_vsys():
         Pin(29, Pin.IN)
 
         vsys = ADC(29)
-        return vsys.read_u16() * conversion_factor
+        voltage = vsys.read_u16() * conversion_factor
+        return round(voltage, 3)
 
     finally:
         # Restore the pin state and possibly reactivate WLAN

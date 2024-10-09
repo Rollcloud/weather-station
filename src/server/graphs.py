@@ -1,13 +1,8 @@
-import matplotlib
 # matplotlib.use('Agg')
 # import matplotlib.pyplot as plt
-from matplotlib.ticker import LogLocator
-from matplotlib.colors import LogNorm
 from matplotlib.figure import Figure
 
-import numpy as np
 import pandas as pd
-import seaborn as sns
 import base64
 from io import BytesIO
 

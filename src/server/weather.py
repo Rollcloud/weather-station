@@ -1,8 +1,7 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, render_template, request
 )
-from werkzeug.exceptions import abort
-from server.db import get_db, add_data, retrieve_data
+from server.db import add_data, retrieve_data
 from server.graphs import default_graph, easy_linegraph
 import json
 

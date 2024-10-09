@@ -27,13 +27,13 @@ def graph_data():
     df['timestamp_unix_epoch'] = pd.to_datetime(df['timestamp'], format='mixed').map(pd.Timestamp.timestamp)
     return df 
 
-def easy_linegraph():
+def easy_linegraph(weather_component, ylabel):
     df = graph_data()
     fig = Figure()
     ax = fig.subplots()
-    ax.scatter(df.timestamp_unix_epoch, df.temperature)
+    ax.scatter(df.timestamp_unix_epoch, df[weather_component])
     ax.set_xticks(ticks=df.timestamp_unix_epoch[0::20], labels=df.timestamp[0::20], minor=False, rotation=90) 
-    ax.set_ylabel("Temperature C")
+    ax.set_ylabel(ylabel)
     ax.set_xlabel("Time")
     buf = BytesIO()
     fig.tight_layout()

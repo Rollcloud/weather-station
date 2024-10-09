@@ -13,7 +13,7 @@ def index():
 
 @bp.route('/visualise')
 def visualise():
-    return render_template('weather/visualise.html')
+    return render_template('weather/visualise.html', easy_linegraph=easy_linegraph)
 
 @bp.route('/data', methods=('POST', ))
 def post_data(): 
@@ -36,4 +36,4 @@ def display_graph():
 
 @bp.route('/graph', methods=('GET',))
 def display_weather_data():
-    return easy_linegraph()
+    return easy_linegraph('temperature', 'Temperature C') 

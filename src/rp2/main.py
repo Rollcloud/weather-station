@@ -3,8 +3,7 @@ import network
 import time
 import urequests
 import json
-from picozero import pico_led
-from PicoAirQuality import KitronikBME688, KitronikOLED, KitronikRTC, KitronikZIPLEDs, KitronikBuzzer, KitronikDataLogger, KitronikOutputControl, KitronikButton
+from PicoAirQuality import KitronikOLED, KitronikZIPLEDs
 
 
 SERVER_URL = 'localhost'+'/data'

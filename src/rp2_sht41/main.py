@@ -51,8 +51,7 @@ payload = {
 headers = {"Content-Type": "application/json"}
 
 try:
-    # Send data to the server, flash the LED while waiting
-    led.on()
+    # Send data to the server
     response = urequests.post(url=SERVER + "/data", headers=headers, json=payload)
     response.close()
     print("Payload successfully sent")
@@ -65,8 +64,6 @@ except OSError as e:
 except Exception as e:
     print("Error sending payload:", e)
     print("could not connect (status = " + str(wlan.status()) + ")")
-finally:
-    led.off()
 
 deactivate_wifi(wlan)
 

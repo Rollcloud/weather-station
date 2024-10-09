@@ -1,12 +1,15 @@
+import matplotlib
+# matplotlib.use('Agg')
+# import matplotlib.pyplot as plt
 from matplotlib.ticker import LogLocator
 from matplotlib.colors import LogNorm
-import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+
 import numpy as np
 import pandas as pd
 import seaborn as sns
 import base64
 from io import BytesIO
-from matplotlib.figure import Figure
 
 from server.db import retrieve_data
 
@@ -26,16 +29,19 @@ def graph_data():
     results = retrieve_data()
     results = [dict(row) for row in results]
     df = pd.DataFrame(results)
+    df['timestamp_unix_epoch'] = pd.to_datetime(df['timestamp'], dayfirst=True).map(pd.Timestamp.timestamp)
     return df 
-
 
 def easy_linegraph():
     df = graph_data()
     fig = Figure()
     ax = fig.subplots()
-    ax.plot(df.timestamp, df.temperature)
+    ax.scatter(df.timestamp_unix_epoch, df.temperature)
+    ax.set_xticks(ticks=df.timestamp_unix_epoch[0::20], labels=df.timestamp[0::20], minor=False, rotation=90) 
+    ax.set_ylabel("Temperature C")
+    ax.set_xlabel("Time")
     buf = BytesIO()
+    fig.tight_layout()
     fig.savefig(buf, format="png")
     data = base64.b64encode(buf.getbuffer()).decode("ascii")
     return f"<img src='data:image/png;base64,{data}'/>"
-

@@ -32,7 +32,7 @@ def add_data(timestamp, temperature, pressure, humidity, air_quality, eCO2):
     db = get_db()
     db.execute(
         'INSERT INTO weather (timestamp, temperature, pressure, humidity, air_quality, eCO2)'
-        ' VALUES (?, ?, ?, ?, ?, ?)',
+        ' VALUES (?, ?, ?, ?, ?, ?);',
         (timestamp, temperature, pressure, humidity, air_quality, eCO2)
     )
     db.commit()
@@ -44,6 +44,7 @@ def retrieve_data():
         'SELECT cast(timestamp as text) as timestamp, temperature, pressure, humidity, air_quality, eCO2'
         ' FROM weather'
         ' ORDER BY timestamp DESC'
+        ' LIMIT 100;'
         ).fetchall()
 
 

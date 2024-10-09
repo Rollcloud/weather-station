@@ -24,7 +24,7 @@ def graph_data():
     results = retrieve_data()
     results = [dict(row) for row in results]
     df = pd.DataFrame(results)
-    df['timestamp_unix_epoch'] = pd.to_datetime(df['timestamp'], dayfirst=True).map(pd.Timestamp.timestamp)
+    df['timestamp_unix_epoch'] = pd.to_datetime(df['timestamp'], format='mixed').map(pd.Timestamp.timestamp)
     return df 
 
 def easy_linegraph():

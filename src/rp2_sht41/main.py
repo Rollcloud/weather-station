@@ -12,7 +12,7 @@ from machine import Pin, I2C, unique_id, deepsleep
 from micropython_sht4x import sht4x
 import urequests
 import errno
-from hardware import connect_to_wifi, led, read_vsys, deactivate_wifi
+from hardware import connect_to_wifi, read_vsys, deactivate_wifi, read_location
 import time
 
 start_time = time.ticks_ms()
@@ -24,10 +24,9 @@ SERVER = "http://localhost:5000"
 UPDATE_PERIOD = 60  # seconds
 
 uid = "".join("{:02x}".format(x) for x in unique_id())  # pico hardware-based unique ID
-location = 1  # integer from 0 to 8
-voltage = read_vsys()
 
-wlan = connect_to_wifi(WIFI_NAME, WIFI_PASSWORD)
+voltage = read_vsys()
+location = read_location()
 
 try:
     i2c = I2C(0, sda=Pin(4), scl=Pin(5))
@@ -40,6 +39,8 @@ except Exception as e:
     print("Error reading SHT4x sensor:", e)
     temperature = None
     relative_humidity = None
+
+wlan = connect_to_wifi(WIFI_NAME, WIFI_PASSWORD)
 
 payload = {
     "UID": uid,

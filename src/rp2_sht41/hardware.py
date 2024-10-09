@@ -7,6 +7,23 @@ import time
 led = Pin("LED", Pin.OUT)
 
 
+def read_location():
+    """Read the sensor location from the header pins on the proto-board.
+
+    Returns an integer from 1 to 15."""
+    headers = {
+        6: "Downstairs",  # 1
+        7: "Front",  # 2
+        8: "East",  # 4
+        9: "Debug",  # 8
+    }
+    # setup pins as inputs, with pull-up resistors
+    pins = [Pin(pin, Pin.IN, Pin.PULL_UP) for pin in sorted(headers)]
+    # read the values
+    total = sum([pin.value() << i for i, pin in enumerate(pins)])
+    return 15 - total
+
+
 def read_vsys():
     """
     Read the system voltage from the ADC, disabling the WLAN chip to avoid interference.

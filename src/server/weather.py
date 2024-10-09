@@ -1,8 +1,7 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, render_template, request
 )
-from werkzeug.exceptions import abort
-from server.db import get_db, add_data, retrieve_data
+from server.db import add_data, retrieve_data
 from server.graphs import default_graph, easy_linegraph
 import json
 
@@ -14,7 +13,7 @@ def index():
 
 @bp.route('/visualise')
 def visualise():
-    return render_template('weather/visualise.html')
+    return render_template('weather/visualise.html', easy_linegraph=easy_linegraph)
 
 @bp.route('/data', methods=('POST', ))
 def post_data(): 
@@ -37,4 +36,4 @@ def display_graph():
 
 @bp.route('/graph', methods=('GET',))
 def display_weather_data():
-    return easy_linegraph()
+    return easy_linegraph('temperature', 'Temperature C') 

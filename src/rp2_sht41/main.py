@@ -23,21 +23,23 @@ WIFI_PASSWORD = "Wifi_password"
 SERVER = "http://localhost:5000"
 UPDATE_PERIOD = 60  # seconds
 
-# pico-specific hardware-based unique ID
-uid = "".join("{:02x}".format(x) for x in unique_id())
-
+uid = "".join("{:02x}".format(x) for x in unique_id())  # pico hardware-based unique ID
+location = 1  # integer from 0 to 8
 voltage = read_vsys()
 
 wlan = connect_to_wifi(WIFI_NAME, WIFI_PASSWORD)
 
-i2c = I2C(0, sda=Pin(4), scl=Pin(5))
-sht = sht4x.SHT4X(i2c)
-sht.temperature_precision = sht4x.LOW_PRECISION
-
-location = 1  # integer from 0 to 8
-temperature, relative_humidity = sht.measurements
-temperature = round(temperature, 2)
-relative_humidity = round(relative_humidity, 2)
+try:
+    i2c = I2C(0, sda=Pin(4), scl=Pin(5))
+    sht = sht4x.SHT4X(i2c)
+    sht.temperature_precision = sht4x.LOW_PRECISION
+    temperature, relative_humidity = sht.measurements
+    temperature = round(temperature, 2)
+    relative_humidity = round(relative_humidity, 2)
+except Exception as e:
+    print("Error reading SHT4x sensor:", e)
+    temperature = None
+    relative_humidity = None
 
 payload = {
     "UID": uid,

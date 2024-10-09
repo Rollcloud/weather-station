@@ -13,7 +13,11 @@ from micropython_sht4x import sht4x
 import urequests
 import errno
 from hardware import connect_to_wifi, led, read_vsys, deactivate_wifi
+import time
 
+start_time = time.ticks_ms()
+
+# Constants
 WIFI_NAME = "Wifi_name"
 WIFI_PASSWORD = "Wifi_password"
 SERVER = "http://localhost:5000"
@@ -64,5 +68,9 @@ finally:
 
 deactivate_wifi(wlan)
 
-print("Going to sleep for", UPDATE_PERIOD, "seconds")
-deepsleep(UPDATE_PERIOD * 1000)
+end_time = time.ticks_ms()
+time_taken = time.ticks_diff(end_time, start_time)
+time_sleep = UPDATE_PERIOD * 1000 - time_taken
+
+print("Going to sleep for", time_sleep, "seconds")
+deepsleep(time_sleep)

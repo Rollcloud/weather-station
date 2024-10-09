@@ -51,13 +51,13 @@ while True:
     oled.displayText("IAQ " + air_quality + "/500", 5, 10)
     oled.displayText("eCO2 " + co2 + "ppm", 6, 10)
     oled.show()
-    IAQ = bme688.getAirQualityScore()
-    eCO2 = bme688.readeCO2()
-    if (IAQ < 100):
+
+
+    if (int(air_quality) < 100):
         zipleds.setLED(0,  zipleds.GREEN)
     else:
         zipleds.setLED(0, zipleds.RED)
-    if (eCO2 < 800):
+    if (int(co2) < 800):
         zipleds.setLED(2,  zipleds.GREEN)
     else:
         zipleds.setLED(2,  zipleds.RED)

@@ -15,6 +15,10 @@ def index():
 def visualise():
     return render_template('weather/visualise.html', easy_linegraph=easy_linegraph)
 
+@bp.route('/analyse') 
+def analyse():
+    return render_template('weather/analyse.html')
+
 @bp.route('/data', methods=('POST', ))
 def post_data(): 
     data = request.get_json()

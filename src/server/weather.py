@@ -34,6 +34,13 @@ def get_data():
 def display_graph():
     return default_graph()
 
-@bp.route('/graph', methods=('GET',))
-def display_weather_data():
-    return easy_linegraph('temperature', 'Temperature C') 
+
+@bp.route('/graph/<weather_component>')
+def display_weather_data(weather_component):
+    weather_dict = {'humidity': 'Humidity %', 
+    'temperature': 'Temperature C', 
+    'pressure': 'Pressure Pa', 
+    'air_quality': 'IAQ', 
+    'eCO2': 'eCO2 ppm'}
+    return easy_linegraph(weather_component, 
+    weather_dict[weather_component]) 

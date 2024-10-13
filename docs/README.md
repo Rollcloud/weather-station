@@ -20,6 +20,19 @@ flask --app server run --debug --host=0.0.0.0
 
 # Set up
 
+## Pyenv
+Use `pyenv` to change the python version for the project directory. 
+```
+pyenv install 3.11.10
+pyenv local 3.11
+```
+Add the following to your ~/.zshrc:
+```
+export PATH="/Users/username/.pyenv:$PATH"
+eval "$(pyenv init -)"
+```
+
+
 ## Poetry
 To set up poetry environment:
 ```

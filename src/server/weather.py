@@ -1,9 +1,9 @@
-from flask import (
-    Blueprint, render_template, request
-)
+import json
+
+from flask import Blueprint, render_template, request
+
 from server.db import add_data, retrieve_data
 from server.graphs import default_graph, easy_linegraph
-import json
 
 bp = Blueprint('weather', __name__)
 

@@ -1,10 +1,9 @@
-from PicoAirQuality import KitronikBME688, KitronikRTC
-import network
-import time
-import urequests
 import json
-from PicoAirQuality import KitronikOLED, KitronikZIPLEDs
+import time
 
+import network
+import urequests
+from PicoAirQuality import KitronikBME688, KitronikOLED, KitronikRTC, KitronikZIPLEDs
 
 SERVER_URL = 'localhost'+'/data'
 WIFI_NAME = 'Wifi_name'

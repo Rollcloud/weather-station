@@ -1,7 +1,8 @@
 import os
+
 from flask import Flask
-from . import db
-from . import weather
+
+from . import db, weather
 
 
 def create_app(test_config=None):

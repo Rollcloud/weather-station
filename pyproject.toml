@@ -48,6 +48,7 @@ ignore = [
     "D103", # Missing docstring in public function
     "D105", # Missing docstring in magic method
     "D107", # Missing docstring in __init__
+    "D212", # Multi-line docstring summary should start at the first line
     "D417", # Missing argument descriptions in the docstring
 ]
 

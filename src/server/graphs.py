@@ -9,6 +9,7 @@ from io import BytesIO
 from server.db import retrieve_data
 
 def default_graph():
+    '''Plots simple test graph for use in development'''
     # Generate the figure **without using pyplot**.
     fig = Figure()
     ax = fig.subplots()
@@ -21,6 +22,7 @@ def default_graph():
     return f"<img src='data:image/png;base64,{data}'/>"
 
 def graph_data(): 
+    '''Retrieves data from database and returns as a df with time in unix epoch & ISO'''
     results = retrieve_data()
     results = [dict(row) for row in results]
     df = pd.DataFrame(results)
@@ -28,6 +30,7 @@ def graph_data():
     return df 
 
 def easy_linegraph(weather_component, ylabel):
+    '''Plots simple graph of weather component vs time'''
     df = graph_data()
     fig = Figure()
     ax = fig.subplots()

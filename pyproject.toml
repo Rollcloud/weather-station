@@ -8,11 +8,11 @@ readme = "README.md"
 package-mode = false
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "~3.11"
 Flask = "^3.0.3"
 requests = "^2.32.3"
 pandas = "^2.2.2"
-matplotlib = "^3.9.1"
+matplotlib = "^3.9.2"
 seaborn = "^0.13.2"
 
 [tool.poetry.group.dev.dependencies]

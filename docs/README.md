@@ -18,20 +18,21 @@ flask --app server run --debug --host=0.0.0.0
 
 * The ```rp2``` directory mirrors the scripts that will go onto the Raspberry Pi Pico. 
 
-# Set up
+# Setup
 
 ## Pyenv
-Use `pyenv` to change the python version for the project directory. 
+Use `pyenv` to change the python version for the project directory.* 
 ```
 pyenv install 3.11.10
 pyenv local 3.11
 ```
-Add the following to your ~/.zshrc:
+_\* Python 3.11 in this case to match the Raspberry Pi that will host the server for continuous data logging_
+
+Ensure the following is in your ~/.zshrc:
 ```
 export PATH="/Users/username/.pyenv:$PATH"
 eval "$(pyenv init -)"
 ```
-
 
 ## Poetry
 To set up poetry environment:

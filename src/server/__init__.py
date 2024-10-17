@@ -26,11 +26,6 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
-    @app.route("/hello")
-    def hello():
-        return "Hello, World!"
-
     # register init functions from db.py with the app
     # https://flask.palletsprojects.com/en/3.0.x/tutorial/database/#register-with-the-application
     db.init_app(app)

@@ -40,3 +40,10 @@ def create_app(test_config=None):
     app.add_url_rule("/", endpoint="index")
 
     return app
+
+# See https://stackoverflow.com/a/51397334
+if __name__ == '__main__':
+    create_app = create_app()
+    create_app.run()
+else:
+    gunicorn_app = create_app()

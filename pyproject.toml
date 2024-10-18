@@ -15,6 +15,9 @@ pandas = "^2.2.2"
 matplotlib = "^3.9.2"
 seaborn = "^0.13.2"
 gunicorn = "^23.0.0"
+# Fixed indirect dependencies
+numpy = "==1.24.2" # this version is the apt-installed version on the Raspberry Pi (see README for more detail)
+contourpy = "==1.2.1" # highest version available on piwheels
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.5.5"

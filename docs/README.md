@@ -13,7 +13,7 @@ Home weather station with Raspberry Pi Pico &amp; Kitronik Air Quality Board
 In the orginal setup, the server is run from a Raspberry Pi, while development takes place on a laptop. They have slightly different needs for their environment setup and so are addressed separately here.  
 
 Overview:
-* [Environment setup on Mac/PC/Linux computer](#environment-setup-on-macpclinux-computer)
+* [Environment setup on Mac/Linux computer](#environment-setup-on-maclinux-computer)
 * [Environment setup on Raspberry Pi](#environment-setup-on-raspberry-pi)
 * [SQLite Database](#sqlite-database)
 * [Raspberry Pi Pico W + Kitronik Air Quality Board](#raspberry-pi-pico-w--kitronik-air-quality-board)
@@ -21,7 +21,7 @@ Overview:
 * [Deploying to Production](#deploying-to-production)
 
 
-## Environment setup on Mac/PC/Linux computer
+## Environment setup on Mac/Linux computer
 ### Pyenv
 Use `pyenv` to change the python version for the project directory.* 
 ```
@@ -54,24 +54,14 @@ Raspberry Pi model 1B: Raspbian GNU/Linux 12 (bookworm)
 sudo apt install libjpeg-dev zlib1g-dev
 ```
 
-### Known issues with numpy
-Some issues may be encountered with `numpy` throwing a `ChefInstallError` when running `poetry install` on a Raspberry Pi. 
-If `numpy` appears to install correctly, it can be tested by opening Python and trying to import `numpy`. If it mentions the following error and fails to import then a system installation of `numpy` must be used: 
-```
-libf77blas.so.3: cannot open shared object file: No such file or directory
-``` 
-
-The solution is to make `numpy` available globally rather than installing it with `pip` in the `venv`.  
+This project requires `numpy` to be installed with apt. See the section [Known issues with numpy](#known-issues-with-numpy) for more detail. 
 ```sh
-pip3 uninstall numpy  # remove previously installed version
-apt install python3-numpy
+sudo apt install python3-numpy
 ```
-See https://numpy.org/devdocs/user/troubleshooting-importerror.html#raspberry-pi
-
 
 ### Venv
-* `venv` is used instead of `poetry` on the Raspberry Pi. It is lighter weight and works well to lock down the version of `numpy` due to the problems listed above. 
-* A `requirements.txt` is generated with `poetry` from a Mac/PC/Linux computer and then used by `venv` on the Raspberry Pi. See the [Development section](#to-update-the-environment) for more details on generating the `requirements.txt.`
+`venv` is used instead of `poetry` on the Raspberry Pi. It is lighter weight and works well to lock down the version of `numpy` due to the problems listed below. 
+A `requirements.txt` is generated with `poetry` from a Mac/Linux computer and then used by `venv` on the Raspberry Pi. See the [Development section](#to-update-the-environment) for more details on generating the `requirements.txt.`
 
 
 `ssh` into the Raspberry Pi, and from the `weather-station` directory, run the following:
@@ -85,6 +75,22 @@ pip install --prefer-binary -r requirements.txt
 After this point, continue to [SQLite Database](#sqlite-database).
 
 
+### Known issues with numpy
+Some issues may be encountered with `numpy` throwing a `ChefInstallError` when running `poetry install` on a Raspberry Pi. 
+If `numpy` appears to install correctly, it can be tested by opening Python and trying to import `numpy`. If it mentions the following error and fails to import then a system installation of `numpy` must be used: 
+```
+libf77blas.so.3: cannot open shared object file: No such file or directory
+``` 
+
+The solution is to make `numpy` available globally rather than installing it with `pip` in the `venv`.  
+```sh
+pip3 uninstall numpy  # remove previously installed version
+sudo apt install python3-numpy
+```
+See https://numpy.org/devdocs/user/troubleshooting-importerror.html#raspberry-pi
+
+
+
 ## SQLite Database
 From the `src` directory, initialise the SQLite database with:
 ```
@@ -93,8 +99,8 @@ flask --app server init-db
 The database will appear in the `instance` directory as `weather.sqlite`
 
 ## Raspberry Pi Pico W + Kitronik Air Quality Board
-* Copy scripts from ```rp2``` onto Raspberry Pi. 
-* Change constants at the top of the copy of ```send_data.py``` on the Pico:
+* Copy scripts from ```rp2``` onto Raspberry Pi Pico. 
+* Change constants at the top of the copy of ```main.py``` on the Pico:
 ```
 SERVER_URL = 'localhost'+'/data'
 WIFI_NAME = 'Wifi_name'
@@ -112,7 +118,9 @@ If running the development server from the Raspberry Pi, remove the `--debug` op
 
 
 ## Deploying to Production
-Start Gunicorn WSGI server from `src` directory using:
+
+### WSGI Server
+Start [Gunicorn](https://gunicorn.org/) WSGI server from `src` directory using:
 ```sh
 gunicorn -c server/gunicorn_config.py server:gunicorn_app
 ```

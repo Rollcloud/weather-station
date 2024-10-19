@@ -3,7 +3,8 @@
 import time
 
 import network
-from machine import ADC, Pin
+from machine import ADC, I2C, Pin
+from micropython_sht4x import sht4x
 
 led = Pin("LED", Pin.OUT)
 
@@ -62,6 +63,23 @@ def read_vsys():
         # Restore the pin state and possibly reactivate WLAN
         Pin(29, Pin.ALT, pull=Pin.PULL_DOWN, alt=7)
         wlan.active(wlan_active)
+
+
+def read_sht4x():
+    """Read temperature and humidity from the SHT4x sensor."""
+    try:
+        i2c = I2C(0, sda=Pin(4), scl=Pin(5))
+        sht = sht4x.SHT4X(i2c)
+        sht.temperature_precision = sht4x.LOW_PRECISION
+        temperature, relative_humidity = sht.measurements
+        temperature = round(temperature, 2)
+        relative_humidity = round(relative_humidity, 2)
+    except Exception as e:
+        print("Error reading SHT4x sensor:", e)
+        temperature = None
+        relative_humidity = None
+
+    return temperature, relative_humidity
 
 
 def connect_to_wifi(wifi_name, wifi_password):

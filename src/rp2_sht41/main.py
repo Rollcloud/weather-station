@@ -12,9 +12,8 @@ import errno
 import time
 
 import urequests
-from hardware import connect_to_wifi, deactivate_wifi, read_location, read_vsys
-from machine import I2C, Pin, deepsleep, unique_id
-from micropython_sht4x import sht4x
+from hardware import connect_to_wifi, deactivate_wifi, read_location, read_sht4x, read_vsys
+from machine import deepsleep, unique_id
 
 start_time = time.ticks_ms()
 
@@ -28,18 +27,7 @@ uid = "".join("{:02x}".format(x) for x in unique_id())  # pico hardware-based un
 
 voltage = read_vsys()
 location = read_location()
-
-try:
-    i2c = I2C(0, sda=Pin(4), scl=Pin(5))
-    sht = sht4x.SHT4X(i2c)
-    sht.temperature_precision = sht4x.LOW_PRECISION
-    temperature, relative_humidity = sht.measurements
-    temperature = round(temperature, 2)
-    relative_humidity = round(relative_humidity, 2)
-except Exception as e:
-    print("Error reading SHT4x sensor:", e)
-    temperature = None
-    relative_humidity = None
+temperature, relative_humidity = read_sht4x()
 
 wlan = connect_to_wifi(WIFI_NAME, WIFI_PASSWORD)
 

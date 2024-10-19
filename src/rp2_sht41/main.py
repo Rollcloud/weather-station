@@ -8,12 +8,13 @@ After sending the data, the script will enter deep sleep mode for the specified
 period, before waking up and running the main.py script again.
 """
 
-from machine import Pin, I2C, unique_id, deepsleep
-from micropython_sht4x import sht4x
-import urequests
 import errno
-from hardware import connect_to_wifi, read_vsys, deactivate_wifi, read_location
 import time
+
+import urequests
+from hardware import connect_to_wifi, deactivate_wifi, read_location, read_vsys
+from machine import I2C, Pin, deepsleep, unique_id
+from micropython_sht4x import sht4x
 
 start_time = time.ticks_ms()
 

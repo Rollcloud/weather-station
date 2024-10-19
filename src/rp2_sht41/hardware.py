@@ -1,16 +1,19 @@
 """Hardware-related functions for the Raspberry Pi Pico."""
 
-from machine import ADC, Pin
-import network
 import time
+
+import network
+from machine import ADC, Pin
 
 led = Pin("LED", Pin.OUT)
 
 
 def read_location():
-    """Read the sensor location from the header pins on the proto-board.
+    """
+    Read the sensor location from the header pins on the proto-board.
 
-    Returns an integer from 1 to 15."""
+    Returns an integer from 1 to 15.
+    """
     headers = {
         6: "Downstairs",  # 1
         7: "Front",  # 2
@@ -62,7 +65,8 @@ def read_vsys():
 
 
 def connect_to_wifi(wifi_name, wifi_password):
-    """Connect to WiFi network using the given SSID and password.
+    """
+    Connect to WiFi network using the given SSID and password.
 
     Based on the example from the MicroPython documentation, 3.6. Connecting to a wireless network:
     https://datasheets.raspberrypi.com/picow/connecting-to-the-internet-with-pico-w.pdf with LED feedback.

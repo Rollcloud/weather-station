@@ -38,6 +38,9 @@ payload = {
     "Temperature": temperature,
     "Humidity": relative_humidity,
 }
+# Remove any measurements that are None
+clean_payload = {key: value for key, value in payload.items() if value is not None}
+
 headers = {"Content-Type": "application/json"}
 
 try:

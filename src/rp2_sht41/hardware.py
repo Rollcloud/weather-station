@@ -13,7 +13,7 @@ def read_location():
     """
     Read the sensor location from the header pins on the proto-board.
 
-    Returns an integer from 1 to 15.
+    Returns an integer from 0 to 15.
     """
     headers = {
         6: "Downstairs",  # 1

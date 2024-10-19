@@ -1,4 +1,4 @@
-# Syncs code on raspberry pi with rp2 directory that is linked into repo 
+# Syncs code on raspberry pi with rp2 directory that is linked into repo
 # With thanks to @Rollcloud
 
 """Implement `mpremote fs cp -r src/rp2/ :/` in Python until mpremote release-1.24.0 (https://github.com/micropython/micropython/milestone/7) is available."""

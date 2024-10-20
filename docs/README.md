@@ -20,6 +20,10 @@ Overview:
 * [Development Server](#development-server)
 * [Deploying to Production](#deploying-to-production)
 
+Once it is set up and running, graphs will begin to generate on the Visualise page:
+
+![Visualise page](Visualise_page.png)
+
 
 ## Environment setup on Mac/Linux computer
 ### Pyenv

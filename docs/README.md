@@ -118,6 +118,7 @@ If running the development server from the Raspberry Pi, remove the `--debug` op
 
 
 ## Deploying to Production
+These instructions are written for a server that is run from a Raspberry Pi. 
 
 ### WSGI Server
 Start [Gunicorn](https://gunicorn.org/) WSGI server from `src` directory using:
@@ -125,12 +126,79 @@ Start [Gunicorn](https://gunicorn.org/) WSGI server from `src` directory using:
 gunicorn -c server/gunicorn_config.py server:gunicorn_app
 ```
 
-*http server to follow...*
+Set up the config `server/gunicorn_config.py`:
+```sh
+bind="127.0.0.1:8000"
+workers=2
+```
 
----
+### HTTP Server
+Install the [nginx](https://nginx.org/) HTTP server:
+```sh
+sudo apt-get install nginx
+```
+
+Set up a config at `/etc/nginx/sites-enabled/default`:
+```
+server {
+    listen 80;
+    listen [::]:80;
+    server_name raspberrypi.local;
+    access_log  /var/log/nginx/weather-station.log;
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+  }
+```
+`Nginx` can be started with:
+```sh
+sudo systemctl start nginx
+```
+Changes made in the configuration file will not be applied until the command to reload configuration is sent to nginx or it is restarted. To reload configuration, execute:
+```sh
+sudo nginx -s reload
+```
+
+### Systemd: set up server to automatically run on startup
+The last step is to automatically run the server on startup. 
+This is done with the[`systemd`](https://systemd.io/) system and service manager, which is used by Raspberry Pi.   
+
+For  Gunicorn we will need a new service that `systemd` can run. 
+(Nginx has already created its own service on installation.)
+
+Create a new file `weather-station.service` for `systemd` in the folder `/usr/lib/systemd/system`:
+
+```sh
+[Unit]
+Description=Weather Station
+After=multi-user.target
+
+[Service]
+WorkingDirectory=/home/{username}/Code/weather-station/src
+ExecStart=/home/{username}/Code/weather-station/.venv/bin/gunicorn -c server/gunicorn_config.py server:gunicorn_app &
+
+[Install]
+WantedBy=multi-user.target
+```
+*\*Gunicorn is started with `&` so that it runs in the background.*
+
+Finally, both Gunicorn and nginx must be started and enabled so that they can run automatically at startup of the Raspberry Pi:
+
+```sh
+sudo systemctl start nginx
+sudo systemctl enable nginx
+
+sudo systemctl start weather-station
+sudo systemctl enable weather-station
+```
+
+(If needed the services can be stopped with `sudo systemctl stop {service}`.)
+
 
 Setup is now complete!
-
 
 
 # Development

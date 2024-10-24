@@ -10,7 +10,18 @@ Home weather station with Raspberry Pi Pico &amp; Kitronik Air Quality Board
 ![Weather station home](Weather_station_home.png)
 
 # Setup
-In the orginal setup, the server is run from a Raspberry Pi, while development takes place on a laptop. They have slightly different needs for their environment setup and so are addressed separately here.  
+
+In the orginal setup, the server is run from a Raspberry Pi, while development takes place on a laptop. They have slightly different needs for their environment setup and so are addressed separately here. 
+ 
+
+![Raspberry Pi](https://img.shields.io/badge/raspberry%20pi-A22846?logo=raspberrypi&logoColor=white&style=flat)
+![Python 3.11](https://img.shields.io/badge/Python-3.11-blue?logo=Python&logoColor=yellow&style=flat)
+![SQLite](https://img.shields.io/badge/sqlite-003B57?logo=sqlite&logoColor=white&style=flat)
+![Flask](https://img.shields.io/badge/-Flask-3eabbf?logo=Flask&logoColor=white&style=flat) 
+![Gunicorn](https://img.shields.io/badge/Gunicorn-499848?logo=Gunicorn&logoColor=white&style=flat)
+![Nginx](https://img.shields.io/badge/nginx-009639?logo=nginx&logoColor=white&style=flat)
+
+
 
 Overview:
 * [Environment setup on Mac/Linux computer](#environment-setup-on-maclinux-computer)

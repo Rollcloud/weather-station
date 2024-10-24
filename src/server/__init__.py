@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from . import db, weather
 
@@ -36,9 +37,16 @@ def create_app(test_config=None):
 
     return app
 
+def connect_middleware(app):
+    app.wsgi_app = ProxyFix(
+    app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+    )
+    return app
+
 # See https://stackoverflow.com/a/51397334
 if __name__ == '__main__':
-    create_app = create_app()
-    create_app.run()
+    app = create_app()
+    app.run()
 else:
-    gunicorn_app = create_app()
+    app = create_app()
+    gunicorn_app = connect_middleware(app)

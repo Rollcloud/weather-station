@@ -13,15 +13,19 @@ Home weather station with Raspberry Pi Pico &amp; Kitronik Air Quality Board
 In the orginal setup, the server is run from a Raspberry Pi, while development takes place on a laptop. They have slightly different needs for their environment setup and so are addressed separately here.  
 
 Overview:
-* [Environment setup on Mac/PC/Linux computer](#environment-setup-on-macpclinux-computer)
+* [Environment setup on Mac/Linux computer](#environment-setup-on-maclinux-computer)
 * [Environment setup on Raspberry Pi](#environment-setup-on-raspberry-pi)
 * [SQLite Database](#sqlite-database)
 * [Raspberry Pi Pico W + Kitronik Air Quality Board](#raspberry-pi-pico-w--kitronik-air-quality-board)
 * [Development Server](#development-server)
 * [Deploying to Production](#deploying-to-production)
 
+Once it is set up and running, graphs will begin to generate on the Visualise page:
 
-## Environment setup on Mac/PC/Linux computer
+![Visualise page](Visualise_page.png)
+
+
+## Environment setup on Mac/Linux computer
 ### Pyenv
 Use `pyenv` to change the python version for the project directory.* 
 ```
@@ -54,24 +58,14 @@ Raspberry Pi model 1B: Raspbian GNU/Linux 12 (bookworm)
 sudo apt install libjpeg-dev zlib1g-dev
 ```
 
-### Known issues with numpy
-Some issues may be encountered with `numpy` throwing a `ChefInstallError` when running `poetry install` on a Raspberry Pi. 
-If `numpy` appears to install correctly, it can be tested by opening Python and trying to import `numpy`. If it mentions the following error and fails to import then a system installation of `numpy` must be used: 
-```
-libf77blas.so.3: cannot open shared object file: No such file or directory
-``` 
-
-The solution is to make `numpy` available globally rather than installing it with `pip` in the `venv`.  
+This project requires `numpy` to be installed with apt. See the section [Known issues with numpy](#known-issues-with-numpy) for more detail. 
 ```sh
-pip3 uninstall numpy  # remove previously installed version
-apt install python3-numpy
+sudo apt install python3-numpy
 ```
-See https://numpy.org/devdocs/user/troubleshooting-importerror.html#raspberry-pi
-
 
 ### Venv
-* `venv` is used instead of `poetry` on the Raspberry Pi. It is lighter weight and works well to lock down the version of `numpy` due to the problems listed above. 
-* A `requirements.txt` is generated with `poetry` from a Mac/PC/Linux computer and then used by `venv` on the Raspberry Pi. See the [Development section](#to-update-the-environment) for more details on generating the `requirements.txt.`
+`venv` is used instead of `poetry` on the Raspberry Pi. It is lighter weight and works well to lock down the version of `numpy` due to the problems listed below. 
+A `requirements.txt` is generated with `poetry` from a Mac/Linux computer and then used by `venv` on the Raspberry Pi. See the [Development section](#to-update-the-environment) for more details on generating the `requirements.txt.`
 
 
 `ssh` into the Raspberry Pi, and from the `weather-station` directory, run the following:
@@ -85,6 +79,22 @@ pip install --prefer-binary -r requirements.txt
 After this point, continue to [SQLite Database](#sqlite-database).
 
 
+### Known issues with numpy
+Some issues may be encountered with `numpy` throwing a `ChefInstallError` when running `poetry install` on a Raspberry Pi. 
+If `numpy` appears to install correctly, it can be tested by opening Python and trying to import `numpy`. If it mentions the following error and fails to import then a system installation of `numpy` must be used: 
+```
+libf77blas.so.3: cannot open shared object file: No such file or directory
+``` 
+
+The solution is to make `numpy` available globally rather than installing it with `pip` in the `venv`.  
+```sh
+pip3 uninstall numpy  # remove previously installed version
+sudo apt install python3-numpy
+```
+See https://numpy.org/devdocs/user/troubleshooting-importerror.html#raspberry-pi
+
+
+
 ## SQLite Database
 From the `src` directory, initialise the SQLite database with:
 ```
@@ -93,8 +103,8 @@ flask --app server init-db
 The database will appear in the `instance` directory as `weather.sqlite`
 
 ## Raspberry Pi Pico W + Kitronik Air Quality Board
-* Copy scripts from ```rp2``` onto Raspberry Pi. 
-* Change constants at the top of the copy of ```send_data.py``` on the Pico:
+* Copy scripts from ```rp2``` onto Raspberry Pi Pico. 
+* Change constants at the top of the copy of ```main.py``` on the Pico:
 ```
 SERVER_URL = 'localhost'+'/data'
 WIFI_NAME = 'Wifi_name'
@@ -112,17 +122,89 @@ If running the development server from the Raspberry Pi, remove the `--debug` op
 
 
 ## Deploying to Production
-Start Gunicorn WSGI server from `src` directory using:
+These instructions are written for a server that is run from a Raspberry Pi. 
+
+### WSGI Server
+Start [Gunicorn](https://gunicorn.org/) WSGI server from `src` directory using:
 ```sh
 gunicorn -c server/gunicorn_config.py server:gunicorn_app
 ```
 
-*http server to follow...*
+Set up the config `server/gunicorn_config.py`:
+```sh
+bind="127.0.0.1:8000"
+workers=2
+```
 
----
+### HTTP Server
+Install the [nginx](https://nginx.org/) HTTP server:
+```sh
+sudo apt-get install nginx
+```
+
+Set up a config at `/etc/nginx/sites-enabled/default`:
+```
+server {
+    listen 80;
+    listen [::]:80;
+    server_name raspberrypi.local;
+    access_log  /var/log/nginx/weather-station.log;
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Prefix /;
+    }
+  }
+```
+`Nginx` can be started with:
+```sh
+sudo systemctl start nginx
+```
+Changes made in the configuration file will not be applied until the command to reload configuration is sent to nginx or it is restarted. To reload configuration, execute:
+```sh
+sudo nginx -s reload
+```
+
+### Systemd: set up server to automatically run on startup
+The last step is to automatically run the server on startup. 
+This is done with the[`systemd`](https://systemd.io/) system and service manager, which is used by Raspberry Pi.   
+
+For  Gunicorn we will need a new service that `systemd` can run. 
+(Nginx has already created its own service on installation.)
+
+Create a new file `weather-station.service` for `systemd` in the folder `/usr/lib/systemd/system`:
+
+```sh
+[Unit]
+Description=Weather Station
+After=multi-user.target
+
+[Service]
+WorkingDirectory=/home/{username}/Code/weather-station/src
+ExecStart=/home/{username}/Code/weather-station/.venv/bin/gunicorn -c server/gunicorn_config.py server:gunicorn_app &
+
+[Install]
+WantedBy=multi-user.target
+```
+*\*Gunicorn is started with `&` so that it runs in the background.*
+
+Finally, both Gunicorn and nginx must be started and enabled so that they can run automatically at startup of the Raspberry Pi:
+
+```sh
+sudo systemctl start nginx
+sudo systemctl enable nginx
+
+sudo systemctl start weather-station
+sudo systemctl enable weather-station
+```
+
+(If needed the services can be stopped with `sudo systemctl stop {service}`.)
+
 
 Setup is now complete!
-
 
 
 # Development

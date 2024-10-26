@@ -153,22 +153,10 @@ Install the [nginx](https://nginx.org/) HTTP server:
 sudo apt-get install nginx
 ```
 
-Set up a config at `/etc/nginx/sites-enabled/default`:
+Set up a symbolic link to the ![nginx config](../src/server/nginx/weather-station.config) at `/etc/nginx/sites-enabled/weather-station.config`:
 ```
-server {
-    listen 80;
-    listen [::]:80;
-    server_name raspberrypi.local;
-    access_log  /var/log/nginx/weather-station.log;
-
-    location / {
-        proxy_pass http://127.0.0.1:8000;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Host $host;
-        proxy_set_header X-Forwarded-Prefix /;
-    }
-  }
+cd /etc/nginx/sites-enabled/
+sudo ln -s /home/{username}/Code/weather-station/src/server/nginx/weather-station.config .
 ```
 `Nginx` can be started with:
 ```sh

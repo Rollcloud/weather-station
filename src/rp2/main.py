@@ -20,9 +20,23 @@ zipleds = KitronikZIPLEDs(3)  # Class for using the ZIP LEDs (on-board and exter
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
 wlan.connect(WIFI_NAME, WIFI_PASSWORD)  # can set up to read these from a txt file
-while not wlan.isconnected() and wlan.status() >= 0:
-    print("Waiting to connect:")
+
+# Wait for connect or fail
+max_wait = 10
+while max_wait > 0:
+    if wlan.status() < 0 or wlan.status() >= 3:
+        break
+    max_wait -= 1
+    print('waiting for connection...')
     time.sleep(1)
+
+# Handle connection error
+if wlan.status() != 3:
+    raise RuntimeError('network connection failed')
+else:
+    print('connected')
+    status = wlan.ifconfig()
+    print( 'ip = ' + status[0] )
 
 
 rtc.getDateTime()
@@ -73,6 +87,22 @@ while True:
     }
     payload = json.dumps(payload_dict)
     headers = {"Content-Type": "application/json"}
-    response = urequests.post(SERVER_URL, headers=headers, data=payload)
-    response.close()
+
+    #Then send it in a try/except block
+    try:
+        print("sending...")
+        response = urequests.post(SERVER_URL, headers=headers, data=payload)
+        response.close()
+    except:
+        print("could not connect (status =" + str(wlan.status()) + ")")
+        if wlan.status() < 0 or wlan.status() >= 3:
+            print("trying to reconnect...")
+            wlan.disconnect()
+            wlan.connect(WIFI_NAME, WIFI_PASSWORD)
+            if wlan.status() == 3:
+                print('connected')
+            else:
+                print('failed')
+
+
     time.sleep(5)

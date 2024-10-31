@@ -22,10 +22,11 @@ wlan.active(True)
 
 # Functions___________________________
 
+
 def connect_wifi():
-    '''
-    Connect to wifi. 
-    
+    """
+    Connect to wifi.
+
     wlan.status() codes:
     define CYW43_LINK_DOWN         (0)     ///< link is down
     define CYW43_LINK_JOIN         (1)     ///< Connected to wifi
@@ -34,21 +35,20 @@ def connect_wifi():
     define CYW43_LINK_FAIL         (-1)    ///< Connection failed
     define CYW43_LINK_NONET        (-2)    ///< No matching SSID found (could be out of range, or down)
     define CYW43_LINK_BADAUTH      (-3)    ///< Authenticatation failure
-    '''
-
-    UNCONNECTED = 0
+    """
+    # UNCONNECTED = 0
     CONNECTING_1 = 1
     CONNECTING_2 = 2
     CONNECTED = 3
-    
+
     MAX_ATTEMPTS = 3
     attempts = 0
     print(wlan.status())
 
     if wlan.status() == CONNECTED:
-        print('connected')
+        print("connected")
         return True
-    
+
     while attempts < MAX_ATTEMPTS:
         print("trying to connect...")
         if wlan.status() not in [CONNECTING_1, CONNECTING_2]:
@@ -56,31 +56,30 @@ def connect_wifi():
             wlan.connect(WIFI_NAME, WIFI_PASSWORD)
             attempts += 1
             time.sleep(1)
-            
+
     else:
         return False
 
 
-def measure_data(): 
-        #  returns -> Dict
-        bme688.measureData()
+def measure_data():
+    #  returns -> Dict
+    bme688.measureData()
 
-        rtc_date = rtc.readDateString()
-        # rtc_date = day + "/" + month + "/" + str(self.year)
-        iso_date = rtc_date[6:10] + "/" + rtc_date[3:5] + "/" + rtc_date[0:2] 
-        time_string = rtc.readTimeString()
+    rtc_date = rtc.readDateString()
+    # rtc_date = day + "/" + month + "/" + str(self.year)
+    iso_date = rtc_date[6:10] + "/" + rtc_date[3:5] + "/" + rtc_date[0:2]
+    time_string = rtc.readTimeString()
 
-
-        data = {
+    data = {
         "timestamp": iso_date + " " + time_string,
         "temperature": str(bme688.readTemperature()),
         "pressure": str(bme688.readPressure()),
         "humidity": str(bme688.readHumidity()),
         "air_quality": str(bme688.getAirQualityScore()),
-        "e_co2": str(bme688.readeCO2())
-        }
+        "e_co2": str(bme688.readeCO2()),
+    }
 
-        return data
+    return data
 
 
 def display_data(data):
@@ -123,25 +122,27 @@ def send_data(buffered_data):
         payload = json.dumps(data_dict)
         headers = {"Content-Type": "application/json"}
 
-        if connect_wifi() == True:
-
+        if connect_wifi() is True:
             try:
                 print("sending...")
                 response = urequests.post(SERVER_URL, headers=headers, data=payload)
                 response.close()
                 if response in [HTTP_OK, HTTP_CREATED, HTTP_ACCEPTED]:
                     buffered_data.popleft()
-            except:
-                print("could not send!") 
-            
+            except Exception:
+                print("could not send!")
+                zipleds.setLED(1, zipleds.ORANGE)
+                zipleds.setBrightness(10)
+                zipleds.show()
+
 
 # ___________________________
 
 if __name__ == "__main__":
     connect_wifi()
     rtc.getDateTime()
-    
-    counter = 295 # Sends through first reading to server, then every 5 min 
+
+    counter = 295  # Sends through first reading to server, then every 5 min
     buffered_data = []
 
     while counter < 300:
@@ -153,4 +154,4 @@ if __name__ == "__main__":
     else:
         queue_data(buffered_data, data)
         send_data(buffered_data)
-        counter = 0 # reset 
+        counter = 0  # reset

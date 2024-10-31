@@ -28,12 +28,12 @@ def post_data():
     data = request.get_json()
     print(data)
     add_data(
-        data["Timestamp"],
-        data["Temperature"],
-        data["Pressure"],
-        data["Humidity"],
-        data["Air Quality"],
-        data["eCO2"],
+        data["timestamp"],
+        data["temperature"],
+        data["pressure"],
+        data["humidity"],
+        data["air_quality"],
+        data["e_co2"],
     )
     return "JSON received!"
 

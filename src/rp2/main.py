@@ -4,7 +4,6 @@ import time
 import network
 import ntptime
 import urequests
-from collections import deque
 from PicoAirQuality import KitronikBME688, KitronikOLED, KitronikRTC, KitronikZIPLEDs
 
 SERVER_URL = "localhost" + "/data"
@@ -119,20 +118,23 @@ def send_data(buffered_data):
     HTTP_CREATED = 201
     HTTP_ACCEPTED = 202
 
-    for data_dict in buffered_data:
-        payload = json.dumps(data_dict)
+    while len(buffered_data) > 0:
+        payload = json.dumps(buffered_data[0])
         headers = {"Content-Type": "application/json"}
 
         if connect_wifi() is True:
             try:
                 print("sending...")
                 response = urequests.post(SERVER_URL, headers=headers, data=payload)
+                status = response.status_code
+                print(status)
                 response.close()
-                if response in [HTTP_OK, HTTP_CREATED, HTTP_ACCEPTED]:
-                    buffered_data.popleft()
-            except Exception:
+                if status in [HTTP_OK, HTTP_CREATED, HTTP_ACCEPTED]:
+                    buffered_data.pop(0)
+            except Exception as e:
                 print("could not send!")
-                zipleds.setLED(1, zipleds.ORANGE)
+                print(e)
+                zipleds.setLED(1, zipleds.CYAN)
                 zipleds.setBrightness(10)
                 zipleds.show()
 

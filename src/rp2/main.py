@@ -2,6 +2,7 @@ import json
 import time
 
 import network
+import ntptime
 import urequests
 from collections import deque
 from PicoAirQuality import KitronikBME688, KitronikOLED, KitronikRTC, KitronikZIPLEDs
@@ -140,6 +141,7 @@ def send_data(buffered_data):
 
 if __name__ == "__main__":
     connect_wifi()
+    ntptime.settime()
     rtc.getDateTime()
 
     counter = 295  # Sends through first reading to server, then every 5 min

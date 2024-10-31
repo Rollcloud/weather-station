@@ -149,13 +149,14 @@ if __name__ == "__main__":
     counter = 295  # Sends through first reading to server, then every 5 min
     buffered_data = []
 
-    while counter < 300:
-        data = measure_data()
-        display_data(data)
-        counter += 5
-        time.sleep(5)
+    while True:
+        while counter < 300:
+            data = measure_data()
+            display_data(data)
+            counter += 5
+            time.sleep(5)
 
-    else:
-        queue_data(buffered_data, data)
-        send_data(buffered_data)
-        counter = 0  # reset
+        else:
+            queue_data(buffered_data, data)
+            send_data(buffered_data)
+            counter = 0  # reset

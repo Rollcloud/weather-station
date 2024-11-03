@@ -17,7 +17,9 @@ def index():
 
 @bp.route("/visualise")
 def visualise():
-    return render_template("weather/visualise.html", easy_linegraph=easy_linegraph)
+    latest_data = retrieve_data(limit=1)
+    latest_data = [dict(row) for row in latest_data][0]
+    return render_template("weather/visualise.html", easy_linegraph=easy_linegraph, latest_data=latest_data)
 
 
 @bp.route("/analyse")

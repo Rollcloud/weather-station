@@ -23,7 +23,7 @@
           </svg>
         </div>
         <h3 class="lead">Humidity %</h3>
-        <h1> 55 </h1>         <!-- Placeholder text -- pull these from the database -->
+        <h1> {{latest_data["humidity"]}} </h1> 
       </div>
       <div class="feature col">
         <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
@@ -33,7 +33,7 @@
           </svg>
         </div>
         <h3 class="lead">Temperature &deg;C</h3>
-        <h1> 23.5 </h1>         <!-- Placeholder text -- pull these from the database -->
+        <h1> {{latest_data["temperature"]}}  </h1> 
       </div>
       <div class="feature col">
         <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
@@ -43,7 +43,7 @@
           </svg>
         </div>
         <h3 class="lead">Pressure mBar</h3>
-        <h1> 1001.12 </h1>         <!-- Placeholder text -- pull these from the database -->
+        <h1> {{latest_data["pressure"]/100}}  </h1> 
       </div>
       <div class="feature col">
         <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
@@ -52,7 +52,7 @@
           </svg>
         </div>
         <h3 class="lead">Air Quality /500</h3>
-        <h1> 30 </h1>         <!-- Placeholder text -- pull these from the database -->
+        <h1> {{latest_data["air_quality"]}}  </h1> 
       </div>
       <div class="feature col">
         <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
@@ -62,7 +62,7 @@
           </svg>
         </div>
         <h3 class="lead">eCO2 ppm</h3>
-        <h1> 300 </h1>         <!-- Placeholder text -- pull these from the database -->
+        <h1> {{latest_data["eCO2"]}}  </h1> 
       </div>
     </div>
     <h2 class="pb-2 border-bottom"></h2>

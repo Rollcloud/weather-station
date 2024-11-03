@@ -34,7 +34,7 @@ def graph_data(limit):
     return df
 
 
-def easy_linegraph(weather_component, ylabel, limit=12): # 12 readings = ± 1hr if every 5 min 
+def easy_linegraph(weather_component, ylabel, limit=72): # 12 readings = ± 1hr if measured every 5 min 
     """Plot simple graph of weather component vs time."""
     df = graph_data(limit)
     fig = Figure()

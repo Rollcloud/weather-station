@@ -41,7 +41,7 @@ def easy_linegraph(weather_component, ylabel, limit=12): # 12 readings = ± 1hr 
     ax = fig.subplots()
     ax.scatter(df.timestamp_unix_epoch, df[weather_component])
     ax.set_xticks(
-        ticks=df.timestamp_unix_epoch[0::20], labels=df.timestamp[0::20], minor=False, rotation=90
+        ticks=df.timestamp_unix_epoch[0::round(limit/5)], labels=df.timestamp[0::round(limit/5)], minor=False, rotation=90
     )
     ax.set_ylabel(ylabel)
     ax.set_xlabel("Time")

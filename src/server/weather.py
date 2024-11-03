@@ -41,7 +41,7 @@ def post_data():
 @bp.route("/data", methods=("GET",))
 def get_data():
     # Get the JSON data from the SQL database
-    results = retrieve_data()
+    results = retrieve_data(100)
     results = [dict(row) for row in results]
     json_string = json.dumps(results)
     return json_string
@@ -61,4 +61,4 @@ def display_weather_data(weather_component):
         "air_quality": "IAQ",
         "eCO2": "eCO2 ppm",
     }
-    return easy_linegraph(weather_component, weather_dict[weather_component])
+    return easy_linegraph(weather_component, weather_dict[weather_component], limit=288)

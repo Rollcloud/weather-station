@@ -23,9 +23,9 @@ def default_graph():
     return f"<img src='data:image/png;base64,{data}'/>"
 
 
-def graph_data():
+def graph_data(limit): 
     """Retrieve data from database and returns as a df with time in unix epoch & ISO."""
-    results = retrieve_data()
+    results = retrieve_data(limit)
     results = [dict(row) for row in results]
     df = pd.DataFrame(results)
     df["timestamp_unix_epoch"] = pd.to_datetime(df["timestamp"], format="mixed").map(
@@ -34,14 +34,14 @@ def graph_data():
     return df
 
 
-def easy_linegraph(weather_component, ylabel):
+def easy_linegraph(weather_component, ylabel, limit=72): # 12 readings = ± 1hr if measured every 5 min 
     """Plot simple graph of weather component vs time."""
-    df = graph_data()
+    df = graph_data(limit)
     fig = Figure()
     ax = fig.subplots()
     ax.scatter(df.timestamp_unix_epoch, df[weather_component])
     ax.set_xticks(
-        ticks=df.timestamp_unix_epoch[0::20], labels=df.timestamp[0::20], minor=False, rotation=90
+        ticks=df.timestamp_unix_epoch[0::round(limit/5)], labels=df.timestamp[0::round(limit/5)], minor=False, rotation=90
     )
     ax.set_ylabel(ylabel)
     ax.set_xlabel("Time")

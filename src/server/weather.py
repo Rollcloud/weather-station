@@ -10,12 +10,16 @@ bp = Blueprint("weather", __name__)
 
 @bp.route("/")
 def index():
-    return render_template("weather/index.html")
+    latest_data = retrieve_data(limit=1)
+    latest_data = [dict(row) for row in latest_data][0]
+    return render_template("weather/index.html", latest_data=latest_data)
 
 
 @bp.route("/visualise")
 def visualise():
-    return render_template("weather/visualise.html", easy_linegraph=easy_linegraph)
+    latest_data = retrieve_data(limit=1)
+    latest_data = [dict(row) for row in latest_data][0]
+    return render_template("weather/visualise.html", easy_linegraph=easy_linegraph, latest_data=latest_data)
 
 
 @bp.route("/analyse")
@@ -28,12 +32,12 @@ def post_data():
     data = request.get_json()
     print(data)
     add_data(
-        data["Timestamp"],
-        data["Temperature"],
-        data["Pressure"],
-        data["Humidity"],
-        data["Air Quality"],
-        data["eCO2"],
+        data["timestamp"],
+        data["temperature"],
+        data["pressure"],
+        data["humidity"],
+        data["air_quality"],
+        data["e_co2"],
     )
     return "JSON received!"
 
@@ -41,7 +45,7 @@ def post_data():
 @bp.route("/data", methods=("GET",))
 def get_data():
     # Get the JSON data from the SQL database
-    results = retrieve_data()
+    results = retrieve_data(100)
     results = [dict(row) for row in results]
     json_string = json.dumps(results)
     return json_string
@@ -61,4 +65,4 @@ def display_weather_data(weather_component):
         "air_quality": "IAQ",
         "eCO2": "eCO2 ppm",
     }
-    return easy_linegraph(weather_component, weather_dict[weather_component])
+    return easy_linegraph(weather_component, weather_dict[weather_component], limit=288)

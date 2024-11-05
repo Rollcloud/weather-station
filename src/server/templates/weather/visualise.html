@@ -21,8 +21,10 @@
                 <p class="card-text"> Humidity </p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <a class="btn btn-primary" href="graph/humidity" role="button">View</a>
-                    <a class="btn btn-outline-secondary" href="#" role="button">Edit</a>
+                    <a class="btn btn-primary" href="graph/humidity" role="button"
+                    title="Graph the last day's worth of data"
+                    >View</a>
+                    <a class="btn btn-outline-secondary" href="#" role="button">Explore</a>
                   </div>
                 </div>
               </div>
@@ -38,8 +40,10 @@
                 <p class="card-text">Temperature</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <a class="btn btn-primary" href="graph/temperature" role="button">View</a>
-                    <a class="btn btn-outline-secondary" href="#" role="button">Edit</a>
+                    <a class="btn btn-primary" href="graph/temperature" role="button"
+                    title="Graph the last day's worth of data"
+                    >View</a>
+                    <a class="btn btn-outline-secondary" href="#" role="button">Explore</a>
                   </div>
                 </div>
               </div>
@@ -54,8 +58,10 @@
                 <p class="card-text">Pressure</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <a class="btn btn-primary" href="graph/pressure" role="button">View</a>
-                    <a class="btn btn-outline-secondary" href="#" role="button">Edit</a>
+                    <a class="btn btn-primary" href="graph/pressure" role="button"
+                    title="Graph the last day's worth of data"
+                    >View</a>
+                    <a class="btn btn-outline-secondary" href="#" role="button">Explore</a>
                   </div>
                 </div>
               </div>
@@ -69,8 +75,10 @@
                 <p class="card-text">Air Quality</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <a class="btn btn-primary" href="graph/air_quality" role="button">View</a>
-                    <a class="btn btn-outline-secondary" href="#" role="button">Edit</a>
+                    <a class="btn btn-primary" href="graph/air_quality" role="button"
+                    title="Graph the last day's worth of data"
+                    >View</a>
+                    <a class="btn btn-outline-secondary" href="#" role="button">Explore</a>
                   </div>
                 </div>
               </div>
@@ -85,18 +93,20 @@
                 <p class="card-text">eCO2</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <a class="btn btn-primary" href="graph/eCO2" role="button">View</a>
-                    <a class="btn btn-outline-secondary" href="#" role="button">Edit</a>
+                    <a class="btn btn-primary" href="graph/eCO2" role="button"
+                    title="Graph the last day's worth of data"
+                    >View</a>
+                    <a class="btn btn-outline-secondary" href="#" role="button">Explore</a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-  
+  <p class="text-secondary pt-4" >Last updated: {{latest_data["timestamp"]}}</p>
+
   </main>
-  
-
 
 {% endblock %}
 

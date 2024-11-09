@@ -77,7 +77,7 @@ def read_sht4x():
     try:
         i2c = I2C(0, sda=Pin(4), scl=Pin(5))
         sht = sht4x.SHT4X(i2c)
-        sht.temperature_precision = sht4x.LOW_PRECISION
+        sht.temperature_precision = sht4x.HIGH_PRECISION
         temperature, relative_humidity = sht.measurements
         temperature = round(temperature, 2)
         relative_humidity = round(relative_humidity, 2)

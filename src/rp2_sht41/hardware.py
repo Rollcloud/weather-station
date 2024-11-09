@@ -1,12 +1,19 @@
 """Hardware-related functions for the Raspberry Pi Pico."""
 
+import socket
+import struct
 import time
+from time import gmtime
 
 import network
-from machine import ADC, I2C, Pin
+from machine import ADC, I2C, RTC, Pin
 from micropython_sht4x import sht4x
 
+NTP_DELTA = 2208988800
+NTP_HOST = "pool.ntp.org"
+
 led = Pin("LED", Pin.OUT)
+rtc = RTC()
 
 
 def read_location():
@@ -129,3 +136,28 @@ def deactivate_wifi(wlan):
     wlan.active(False)
     wlan.deinit()
     print("WiFi deactivated")
+
+
+def set_rtc_time() -> None:
+    # Get the external time reference
+    NTP_QUERY = bytearray(48)
+    NTP_QUERY[0] = 0x1B
+    addr = socket.getaddrinfo(NTP_HOST, 123)[0][-1]
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.settimeout(10)
+        s.sendto(NTP_QUERY, addr)
+        msg = s.recv(48)
+    finally:
+        s.close()
+
+    # Set our internal time
+    val = struct.unpack("!I", msg[40:44])[0]
+    tm = val - NTP_DELTA
+    t = gmtime(tm)
+    rtc.datetime((t[0], t[1], t[2], t[6] + 1, t[3], t[4], t[5], 0))
+
+
+def get_iso_datetime() -> str:
+    year, month, day, _dow, hour, mins, secs, _subsec = rtc.datetime()
+    return "{:04}-{:02}-{:02} {:02}:{:02}:{:02}".format(year, month, day, hour, mins, secs)

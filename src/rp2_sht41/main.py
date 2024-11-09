@@ -12,7 +12,14 @@ import errno
 import time
 
 import urequests
-from hardware import connect_to_wifi, deactivate_wifi, read_location, read_sht4x, read_vsys
+from hardware import (
+    connect_to_wifi,
+    deactivate_wifi,
+    get_iso_datetime,
+    read_location,
+    read_sht4x,
+    read_vsys,
+)
 from machine import deepsleep, unique_id
 
 start_time = time.ticks_ms()
@@ -30,6 +37,12 @@ location = read_location()
 temperature, relative_humidity = read_sht4x()
 
 wlan = connect_to_wifi(WIFI_NAME, WIFI_PASSWORD)
+# TODO: re-enable once time-setting is working again
+# set_rtc_time()
+# ntptime.settime()
+
+# print("retrieved time from NTP server")
+# print("current time:", get_iso_datetime())
 
 payload = {
     "UID": uid,

@@ -28,7 +28,7 @@ start_time = time.ticks_ms()
 WIFI_NAME = "Wifi_name"
 WIFI_PASSWORD = "Wifi_password"
 SERVER = "http://localhost:5000"
-UPDATE_PERIOD = 60  # seconds
+UPDATE_PERIOD = 60 * 5  # seconds
 
 uid = "".join("{:02x}".format(x) for x in unique_id())  # pico hardware-based unique ID
 

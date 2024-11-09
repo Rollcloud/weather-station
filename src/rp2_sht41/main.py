@@ -45,14 +45,19 @@ wlan = connect_to_wifi(WIFI_NAME, WIFI_PASSWORD)
 # print("current time:", get_iso_datetime())
 
 payload = {
-    "UID": uid,
-    "Location": location,
-    "Voltage": voltage,
-    "Temperature": temperature,
-    "Humidity": relative_humidity,
+    "timestamp": get_iso_datetime(),
+    "uid": uid,
+    "location": location,
+    "voltage": voltage,
+    "temperature": temperature,
+    "humidity": relative_humidity,
+    "pressure": 0,
+    "air_quality": 0,
+    "e_co2": 0,
 }
 # Remove any measurements that are None
-payload = {key: value for key, value in payload.items() if value is not None}
+# TODO: re-enable when server is able to handle missing parameters
+# payload = {key: value for key, value in payload.items() if value is not None}
 
 headers = {"Content-Type": "application/json"}
 

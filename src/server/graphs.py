@@ -1,5 +1,5 @@
 # matplotlib.use('Agg')
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import base64
 from io import BytesIO
 
@@ -42,6 +42,7 @@ def graph_data(limit):
 def easy_linegraph(weather_component, ylabel, limit=72): # 12 readings = ± 1hr if measured every 5 min 
     """Plot simple graph of weather component vs time."""
     df = graph_data(limit)
+    plt.style.use('dark_background')
     fig = Figure()
     ax = fig.subplots()
     ax.scatter(df.timestamp_unix_epoch, df[weather_component])

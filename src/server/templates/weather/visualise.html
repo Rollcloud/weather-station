@@ -15,7 +15,7 @@
   
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
           <div class="col">
-            <div class="card shadow-sm">
+            <div class="card shadow-sm" data-bs-theme="dark">
               {{easy_linegraph('humidity', 'Humidity %') | safe}}
               <div class="card-body">
                 <p class="card-text"> Humidity </p>
@@ -33,7 +33,7 @@
 
 
           <div class="col">
-            <div class="card shadow-sm">
+            <div class="card shadow-sm" data-bs-theme="dark">
               <!-- <img class="figure-img img-fluid rounded" alt="I am a graph" >  -->
               {{easy_linegraph('temperature', 'Temperature C') | safe}}
               <div class="card-body">
@@ -52,7 +52,7 @@
 
 
           <div class="col">
-            <div class="card shadow-sm">
+            <div class="card shadow-sm" data-bs-theme="dark">
               {{easy_linegraph('pressure', 'Pressure Pa') | safe}}  
               <div class="card-body">
                 <p class="card-text">Pressure</p>
@@ -69,7 +69,7 @@
           </div>
   
           <div class="col">
-            <div class="card shadow-sm">
+            <div class="card shadow-sm" data-bs-theme="dark">
               {{easy_linegraph('air_quality', 'IAQ') | safe}}  
               <div class="card-body">
                 <p class="card-text">Air Quality</p>
@@ -87,7 +87,7 @@
 
 
           <div class="col">
-            <div class="card shadow-sm">
+            <div class="card shadow-sm" data-bs-theme="dark">
               {{easy_linegraph('eCO2', 'eCO2 ppm') | safe}}  
               <div class="card-body">
                 <p class="card-text">eCO2</p>

@@ -8,6 +8,11 @@ from matplotlib.figure import Figure
 
 from server.db import retrieve_data
 
+from threading import Lock
+
+lock = Lock() 
+# See https://stackoverflow.com/a/71527466 - preprocess graph with multiple threads but plot with single thread
+
 
 def default_graph():
     """Plot simple test graph for use in development."""
@@ -47,6 +52,8 @@ def easy_linegraph(weather_component, ylabel, limit=72): # 12 readings = ± 1hr 
     ax.set_xlabel("Time")
     buf = BytesIO()
     fig.tight_layout()
+    lock.acquire()
     fig.savefig(buf, format="png")
+    lock.release()
     data = base64.b64encode(buf.getbuffer()).decode("ascii")
     return f"<img src='data:image/png;base64,{data}'/>"

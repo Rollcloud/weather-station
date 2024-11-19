@@ -1,0 +1,24 @@
+axes.labelsize : 16
+lines.linewidth : 3
+lines.markersize : 8
+xtick.labelsize : 12
+ytick.labelsize : 12
+axes.grid:          False   # display grid or not
+scatter.marker: .
+axes.formatter.offset_threshold: 5
+axes.formatter.limits: -3, 6
+
+# Colours 
+axes.facecolor: '#212529'
+figure.facecolor: '#212529'
+axes.edgecolor:     '#424649'   # axes edge color
+axes.prop_cycle: cycler('color', ['4b8fff']) # colour(s) of plot lines/points 
+axes.labelcolor: white
+xtick.labelcolor : white
+ytick.labelcolor : white
+
+# Padding
+ytick.major.pad:     5    # distance to major tick label in points
+xtick.major.pad:     5  # distance to major tick label in points
+axes.labelpad:      10     # space between label and axis
+

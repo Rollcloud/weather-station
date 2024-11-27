@@ -17,6 +17,7 @@ from hardware import (
     deactivate_wifi,
     get_iso_datetime,
     read_location,
+    read_pressure,
     read_sht4x,
     read_vsys,
 )
@@ -35,6 +36,7 @@ uid = "".join("{:02x}".format(x) for x in unique_id())  # pico hardware-based un
 voltage = read_vsys()
 location = read_location()
 temperature, relative_humidity = read_sht4x()
+pressure = read_pressure()
 
 wlan = connect_to_wifi(WIFI_NAME, WIFI_PASSWORD)
 # TODO: re-enable once time-setting is working again
@@ -51,7 +53,7 @@ payload = {
     "voltage": voltage,
     "temperature": temperature,
     "humidity": relative_humidity,
-    "pressure": 0,
+    "pressure": pressure,
     "air_quality": 0,
     "e_co2": 0,
 }

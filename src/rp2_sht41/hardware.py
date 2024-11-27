@@ -7,6 +7,7 @@ from time import gmtime
 
 import network
 from machine import ADC, I2C, RTC, Pin
+from micropython_dps310 import dps310
 from micropython_sht4x import sht4x
 
 NTP_DELTA = 2208988800
@@ -14,6 +15,7 @@ NTP_HOST = "pool.ntp.org"
 
 led = Pin("LED", Pin.OUT)
 rtc = RTC()
+i2c = I2C(0, sda=Pin(4), scl=Pin(5))
 
 
 def read_location():
@@ -75,7 +77,6 @@ def read_vsys():
 def read_sht4x():
     """Read temperature and humidity from the SHT4x sensor."""
     try:
-        i2c = I2C(0, sda=Pin(4), scl=Pin(5))
         sht = sht4x.SHT4X(i2c)
         sht.temperature_precision = sht4x.HIGH_PRECISION
         temperature, relative_humidity = sht.measurements
@@ -87,6 +88,28 @@ def read_sht4x():
         relative_humidity = None
 
     return temperature, relative_humidity
+
+
+def read_pressure():
+    """Read pressure from the DPS310 sensor."""
+    try:
+        dps = dps310.DPS310(i2c)
+        dps.pressure_oversample = dps310.SAMPLE_PER_SECOND_128
+        dps.pressure_rate = dps310.RATE_128_HZ
+        dps.temperature_oversample = dps310.SAMPLE_PER_SECOND_128
+        dps.temperature_rate = dps310.RATE_128_HZ
+        dps.mode = dps310.ONE_PRESSURE
+
+        # Wait for the sensor to stabilise
+        dps._wait_pressure_ready()
+
+        raw_pressure = dps.pressure  # in hPa
+        pressure = round(raw_pressure * 100)  # in Pa
+    except Exception as e:
+        print("Error reading DPS310 sensor:", e)
+        pressure = None
+
+    return pressure
 
 
 def connect_to_wifi(wifi_name, wifi_password):

@@ -134,13 +134,15 @@ From this point see [Development Server](#development-server) or [Deploying to P
 - [Pico W](https://thepihut.com/products/raspberry-pi-pico-w)
 - [PiCowbell Proto](https://thepihut.com/products/adafruit-picowbell-proto-for-pico-reset-button-stemma-qt)
 - [Adafruit Sensirion SHT41 Temperature & Humidity Sensor](https://thepihut.com/products/adafruit-sensirion-sht41-temperature-humidity-sensor-stemma-qt-qwiic) - [Datasheet](https://sensirion.com/media/documents/33FD6951/662A593A/HT_DS_Datasheet_SHT4x.pdf)
+- [Adafruit DPS310 Precision Barometric Pressure / Altitude Sensor](https://thepihut.com/products/adafruit-dps310-precision-barometric-pressure-altitude-sensor) - [Datasheet](https://www.infineon.com/dgdl/Infineon-DPS310-DataSheet-v01_02-EN.pdf?fileId=5546d462576f34750157750826c42242)
 
 ### Software
 
-Setup the software by installing [jposada202020's MicroPython Driver for the SHT4X Sensors](https://micropython-sht4x.readthedocs.io/):
+Setup the software by installing [jposada202020's MicroPython Driver for the SHT4X Sensors](https://micropython-sht4x.readthedocs.io/) and [jposada202020's MicroPython Driver for the DPS310 sensor](https://github.com/jposada202020/MicroPython_dps310):
 
 ```sh
 mpremote mip install github:jposada202020/MicroPython_SHT4X
+mpremote mip install github:jposada202020/MicroPython_DPS310
 ```
 
 Change constants at the top of `src/rp2_sht41/main.py` as required:

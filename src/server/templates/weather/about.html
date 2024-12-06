@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% set active_page = 'About' %}
+
+
+{% block header %}
+    <h1>{% block title %}About{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <main class="px-5">
+      <div class="row justify-content-center">
+        <div class="col align-self-center">
+          <div class="accordion" id="weatherDescriptor" data-bs-theme="dark">
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button d-block text-center" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Humidity
+                  </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show">
+                  <div class="accordion-body">
+                    Measures relative humidity. Indoor humidity should be <strong>30 - 50% </strong> for best comfort and to control dustmites. 
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button d-block text-center show" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    Temperature
+                  </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse show">
+                  <div class="accordion-body">
+                    Ideal indoor temperature should be between <strong>18 - 22 &deg;C.</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button d-block text-center show" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                    Pressure
+                  </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse show">
+                  <div class="accordion-body">
+                    Pressure does not have a specified indoor range, but the pressure differential compared with either outdoor readings or with different rooms  
+                    <br> gives data about air flow since air will move from high pressure to low pressure. 
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button d-block text-center show" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                    Air Quality Index
+                  </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse show">
+                  <div class="accordion-body">
+                    Air quality index is measured out of 500, with a <strong>lower reading being better.</strong> If above 100, ventilation is suggested.
+                    <br>
+                    Humidity contributes 25% to the IAQ score, and gas resistance 75%.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button d-block text-center show" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                    Equivalent CO2
+                  </button>
+                </h2>
+                <div id="collapseFive" class="accordion-collapse collapse show">
+                  <div class="accordion-body">
+                    Estimation of the CO2 level in ppm derived  from the average
+                    correlation between VOCs and CO2 in human’s exhaled breath. 
+                    <br><strong> 400 - 800ppm </strong> represents the a good indoor CO2, with lower readings being better. 
+                    <br>Above 1000, it may cause drowsiness and headaches, and a window should be opened. 
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </main>
+{% endblock %}

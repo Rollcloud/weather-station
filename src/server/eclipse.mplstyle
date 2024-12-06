@@ -9,10 +9,10 @@ axes.formatter.offset_threshold: 5
 axes.formatter.limits: -3, 6
 
 # Colours 
-axes.facecolor: '#212529'
-figure.facecolor: '#212529'
-axes.edgecolor:     '#424649'   # axes edge color
-axes.prop_cycle: cycler('color', ['4b8fff']) # colour(s) of plot lines/points 
+axes.facecolor: "#212529"
+figure.facecolor: "#212529"
+axes.edgecolor:     "#424649"   # axes edge color
+axes.prop_cycle: cycler("color", ["4b8fff"]) # colour(s) of plot lines/points 
 axes.labelcolor: white
 xtick.labelcolor : white
 ytick.labelcolor : white

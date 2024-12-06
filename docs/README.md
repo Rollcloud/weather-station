@@ -1,10 +1,12 @@
 # weather-station
-Home weather station with Raspberry Pi Pico &amp; Kitronik Air Quality Board
+Home weather station with Raspberry Pi Pico &amp; Kitronik Air Quality Board. 
 
-![Temperature](https://img.shields.io/badge/temperature-%C2%B0C-blue)
-![Pressure](https://img.shields.io/badge/pressure-Pa-green)
-![Humidity](https://img.shields.io/badge/humidity-％-yellow)
-![IAQ](https://img.shields.io/badge/IAQ-orange)
+Why? To monitor and record indoor readings that will facilitate modifications for greater comfort and allergen control. 
+
+![Humidity](https://img.shields.io/badge/humidity-％-blue)
+![Temperature](https://img.shields.io/badge/temperature-%C2%B0C-green)
+![Pressure](https://img.shields.io/badge/pressure-mBar-yellow)
+![IAQ](https://img.shields.io/badge/IAQ-/500-orange)
 ![eCO2](https://img.shields.io/badge/eCO2-ppm-teal)
 
 ![Weather station home](Weather_station_home.png)

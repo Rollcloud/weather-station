@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% set active_page = 'Explore' %}
+
+
+{% block header %}
+    <h1>{% block title %} Explore {% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<main class="px-3">
+    <div class="album py-5 bg-dark">
+    <div class="container text-center">
+        <div class="row">
+          <!-- Graph -->
+          <div class="col-8"> 
+              <div class="card shadow-sm" data-bs-theme="dark">
+                {{weather_graph_template | safe}}   
+              </div>
+          </div>
+          <!-- Inputs Form -->
+          <div class="col-4">
+            <div class="bd-example-snippet bd-code-snippet">
+              <div class="bd-example m-0 border-0">
+            <form action="explore" method="GET"> 
+            <h2>Adjust Graph Inputs:</h2>
+            <!-- Default: x=Time, y=Humidity, Time Period = 6 hours -->
+            <br>
+            <h3>Measurement X-axis</h3>
+            <select name="measurement_x" class="form-select" size="5" aria-label="Size 5 select example" data-bs-theme="dark">
+              <option value="timestamp_unix_epoch" >Time</option>
+              <option value="humidity">Humidity</option>
+              <option value="temperature">Temperature</option>
+              <option value="pressure">Pressure</option>
+              <option value="air_quality">Air Quality</option>
+              <option value="eCO2">eCO2</option>
+            </select>
+            <br>
+            <h3>Weather component Y-axis</h3>
+            <select name="weather_component_y" class="form-select" size="5" aria-label="Size 5 select example" data-bs-theme="dark">
+              <option value="humidity" >Humidity</option>
+              <option value="temperature">Temperature</option>
+              <option value="pressure">Pressure</option>
+              <option value="air_quality">Air Quality</option>
+              <option value="eCO2">eCO2</option>
+            </select>
+            <br>
+            <h3>Time Period</h3>
+            <select name="time_period" class="form-select" size="5" aria-label="Size 5 select example" data-bs-theme="dark">
+              <option value="72" > 6 hours</option>
+              <option value="144">12 hours</option>
+              <option value="288">24 hours</option>
+              <option value="576">48 hours</option>
+              <option value="864">72 hours</option>
+            </select>
+            <br>
+            <button type="submit">Submit </button>
+          </form>
+            </div>
+          </div>
+    </div>
+    </div>
+
+
+
+{% endblock %}

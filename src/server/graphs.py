@@ -39,18 +39,24 @@ def graph_data(limit):
     return df
 
 
-def easy_linegraph(weather_component, ylabel, limit=72): # 12 readings = ± 1hr if measured every 5 min 
+def easy_linegraph(weather_component_y, ylabel, measurement_x="timestamp_unix_epoch", xlabel="Time", limit=72): # 12 readings = ± 1hr if measured every 5 min 
     """Plot simple graph of weather component vs time."""
     df = graph_data(limit)
     plt.style.use('./server/eclipse.mplstyle')
     fig = Figure()
     ax = fig.subplots()
-    ax.scatter(df.timestamp_unix_epoch, df[weather_component])
-    ax.set_xticks(
-        ticks=df.timestamp_unix_epoch[0::round(limit/5)], labels=df.timestamp[0::round(limit/5)], minor=False, rotation=90
-    )
+    ax.scatter(df[measurement_x], df[weather_component_y])
+    if measurement_x=="timestamp_unix_epoch":
+        ax.set_xticks(
+                ticks=df[measurement_x][0::round(limit/5)], labels=df.timestamp[0::round(limit/5)], minor=False, rotation=90
+            )
+    if measurement_x=="pressure":
+        # pressure readings very long, so rotate labels
+        ax.set_xticks(
+                ticks=df[measurement_x][0::], labels=df[measurement_x][0::], rotation=90
+            )
     ax.set_ylabel(ylabel)
-    ax.set_xlabel("Time")
+    ax.set_xlabel(xlabel)
     buf = BytesIO()
     fig.tight_layout()
     lock.acquire()

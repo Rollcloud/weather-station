@@ -13,7 +13,7 @@ Why? To monitor and record indoor readings that will facilitate modifications fo
 
 # Setup
 
-In the orginal setup, the server is run from a Raspberry Pi, while development takes place on a laptop. They have slightly different needs for their environment setup and so are addressed separately here. 
+In the original setup, the server is run from a Raspberry Pi, while development takes place on a laptop. They have slightly different needs for their environment setup and so are addressed separately here. 
  
 
 ![Raspberry Pi](https://img.shields.io/badge/raspberry%20pi-A22846?logo=raspberrypi&logoColor=white&style=flat)

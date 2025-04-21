@@ -1,5 +1,7 @@
 import json
 import time
+import machine
+import scd4x
 
 import network
 import ntptime
@@ -10,6 +12,7 @@ SERVER_URL = "localhost" + "/data"
 WIFI_NAME = "Wifi_name"
 WIFI_PASSWORD = "Wifi_password"
 
+# Kitronik Board
 bme688 = KitronikBME688()
 rtc = KitronikRTC()
 bme688.setupGasSensor()
@@ -19,6 +22,16 @@ zipleds = KitronikZIPLEDs(3)  # Class for using the ZIP LEDs (on-board and exter
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
+
+# Init SCD4X sensor
+i2c_scd4x = machine.I2C(0, sda=machine.Pin(0), scl=machine.Pin(1), freq=100000)
+'''SDA (Serial Data) and SCL (Serial Clock) pins are used for I2C (Inter-Integrated Circuit) communication, 
+a two-wire serial protocol, where SDA transmits data and SCL provides the clock signal for synchronization
+SDA - blue wire - GP0 0
+SCL - yellow wire - GP1 1'''
+
+scd = scd4x.SCD4X(i2c_scd4x)
+scd.start_periodic_measurement()
 
 # Functions___________________________
 
@@ -69,14 +82,19 @@ def measure_data():
     # rtc_date = day + "/" + month + "/" + str(self.year)
     iso_date = rtc_date[6:10] + "/" + rtc_date[3:5] + "/" + rtc_date[0:2]
     time_string = rtc.readTimeString()
+    current_co2 = scd.co2  # SCD40 sensor CO2 reading 
+    # current_temp =scd.temperature  # SCD40 sensor CO2 reading
+    # current_humidity = scd.relative_humidity  # SCD40 sensor CO2 reading
+
 
     data = {
         "timestamp": iso_date + " " + time_string,
-        "temperature": str(bme688.readTemperature()),
-        "pressure": str(bme688.readPressure()),
-        "humidity": str(bme688.readHumidity()),
-        "air_quality": str(bme688.getAirQualityScore()),
-        "e_co2": str(bme688.readeCO2()),
+        "temperature": bme688.readTemperature(),
+        "pressure": bme688.readPressure(),
+        "humidity": bme688.readHumidity(),
+        "air_quality": bme688.getAirQualityScore(),
+        # "e_co2": bme688.readeCO2(),
+        "co2" : current_co2
     }
 
     return data
@@ -86,18 +104,21 @@ def display_data(data):
     # input type: Dict
     oled.clear()
     oled.displayText("Weather Station", 1, 2)
-    oled.displayText("Temp " + data["temperature"] + " C", 2, 10)
-    oled.displayText("Press " + data["pressure"] + " Pa", 3, 10)
-    oled.displayText("Hum " + data["humidity"] + " %", 4, 10)
-    oled.displayText("IAQ " + data["air_quality"] + "/500", 5, 10)
-    oled.displayText("eCO2 " + data["e_co2"] + "ppm", 6, 10)
+    oled.displayText("Temp " + str(data["temperature"]) + " C", 2, 10)
+    oled.displayText("Press " + str(data["pressure"]) + " Pa", 3, 10)
+    oled.displayText("Hum " + str(data["humidity"]) + " %", 4, 10)
+    oled.displayText("IAQ " + str(data["air_quality"]) + "/500", 5, 10)
+    # oled.displayText("eCO2 " + str(data["e_co2"]) + "ppm", 6, 10)
+    oled.displayText("co2 " + str(data["co2"]) + "ppm", 6, 10)
     oled.show()
 
     if int(data["air_quality"]) < 100:
         zipleds.setLED(0, zipleds.GREEN)
     else:
         zipleds.setLED(0, zipleds.RED)
-    if int(data["e_co2"]) < 800:
+    # if int(data["e_co2"]) < 800:
+    #     zipleds.setLED(2, zipleds.GREEN)
+    if data["co2"] < 800:
         zipleds.setLED(2, zipleds.GREEN)
     else:
         zipleds.setLED(2, zipleds.RED)
@@ -149,14 +170,21 @@ if __name__ == "__main__":
     counter = 295  # Sends through first reading to server, then every 5 min
     buffered_data = []
 
+    print('initialising...')
+    measure_data()
+    time.sleep(5)
+
     while True:
         while counter < 300:
             data = measure_data()
+
+            print(data)
+
             display_data(data)
             counter += 5
             time.sleep(5)
 
         else:
-            queue_data(buffered_data, data)
-            send_data(buffered_data)
+            # queue_data(buffered_data, data)
+            # send_data(buffered_data)
             counter = 0  # reset

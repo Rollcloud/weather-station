@@ -93,7 +93,7 @@ def measure_data():
         "pressure": bme688.readPressure(),
         "humidity": bme688.readHumidity(),
         "air_quality": bme688.getAirQualityScore(),
-        # "e_co2": bme688.readeCO2(),
+        "e_co2": bme688.readeCO2(),
         "co2" : current_co2
     }
 
@@ -103,21 +103,19 @@ def measure_data():
 def display_data(data):
     # input type: Dict
     oled.clear()
-    oled.displayText("Weather Station", 1, 2)
-    oled.displayText("Temp " + str(data["temperature"]) + " C", 2, 10)
-    oled.displayText("Press " + str(data["pressure"]) + " Pa", 3, 10)
-    oled.displayText("Hum " + str(data["humidity"]) + " %", 4, 10)
-    oled.displayText("IAQ " + str(data["air_quality"]) + "/500", 5, 10)
-    # oled.displayText("eCO2 " + str(data["e_co2"]) + "ppm", 6, 10)
-    oled.displayText("co2 " + str(data["co2"]) + "ppm", 6, 10)
+    # oled.displayText("Weather Station", 1, 2)
+    oled.displayText("Temp " + str(data["temperature"]) + " C", 1, 10)
+    oled.displayText("Pres " + str(data["pressure"]) + " Pa", 2, 10)
+    oled.displayText("Hum  " + str(data["humidity"]) + " %", 3, 10)
+    oled.displayText("IAQ  " + str(data["air_quality"]) + "/500", 4, 10)
+    oled.displayText("eCO2 " + str(data["e_co2"]) + "ppm", 5, 10)
+    oled.displayText("co2  " + str(data["co2"]) + "ppm", 6, 10)
     oled.show()
 
     if int(data["air_quality"]) < 100:
         zipleds.setLED(0, zipleds.GREEN)
     else:
         zipleds.setLED(0, zipleds.RED)
-    # if int(data["e_co2"]) < 800:
-    #     zipleds.setLED(2, zipleds.GREEN)
     if data["co2"] < 800:
         zipleds.setLED(2, zipleds.GREEN)
     else:
@@ -128,7 +126,13 @@ def display_data(data):
 
 def queue_data(buffered_data, data):
     # input types:  buffered_data: List[Dict], data: Dict
-    buffered_data.append(data)
+
+    # Allowed keys: Kitronik data readings for database. 
+    # Possibly modify later & expand allowed database schema.
+    allowed_keys = ["timestamp", "temperature", "pressure", "humidity", "air_quality", "e_co2"]
+    allowed_data = {key:data[key] for key in allowed_keys}
+
+    buffered_data.append(allowed_data)
 
 
 def send_data(buffered_data):
@@ -185,6 +189,6 @@ if __name__ == "__main__":
             time.sleep(5)
 
         else:
-            # queue_data(buffered_data, data)
-            # send_data(buffered_data)
+            queue_data(buffered_data, data)
+            send_data(buffered_data)
             counter = 0  # reset

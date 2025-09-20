@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}{% endblock %} - Weather</title>
+
+    <!-- Favicons -->
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+
+    <!-- Local CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_legacy.css') }}" />
+  </head>
+
+  <body>
+    <header>{% block header %}{% endblock %}</header>
+    
+    {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+    {% endfor %}
+
+    <main>{% block main %}{% endblock %}</main>
+
+    <footer>{% block footer %}{% endblock %}</footer>
+  </body>
+</html>

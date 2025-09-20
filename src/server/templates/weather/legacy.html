@@ -1,5 +1,8 @@
 {% extends 'base_legacy.html' %}
-{% set active_page = 'Home' %}
+
+{% block head %}
+  <meta http-equiv="Refresh" content="300" />
+{% endblock %}
 
 {% block header %}
   <h1>{% block title %}Current Conditions{% endblock %}</h1>

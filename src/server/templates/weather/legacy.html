@@ -27,8 +27,8 @@
           />
         </svg>
       </div>
-      <h3>Humidity %</h3>
-      <h1>{{latest_data["humidity"]}}</h1>
+      <div class="feature-description">Humidity %</div>
+      <div class="feature-value">{{latest_data["humidity"]}}</div>
     </div>
     <div class="feature">
       <div class="feature-icon">
@@ -44,8 +44,8 @@
           <path d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1" />
         </svg>
       </div>
-      <h3>Temperature &deg;C</h3>
-      <h1>{{latest_data["temperature"]}}</h1>
+      <div class="feature-description">Temperature &deg;C</div>
+      <div class="feature-value">{{latest_data["temperature"]}}</div>
     </div>
     <div class="feature">
       <div class="feature-icon">
@@ -66,8 +66,8 @@
           />
         </svg>
       </div>
-      <h3>Pressure mBar</h3>
-      <h1>{{latest_data["pressure"]/100}}</h1>
+      <div class="feature-description">Pressure mBar</div>
+      <div class="feature-value">{{latest_data["pressure"]/100}}</div>
     </div>
     <div class="feature">
       <div class="feature-icon">
@@ -84,8 +84,8 @@
           />
         </svg>
       </div>
-      <h3>Air Quality /500</h3>
-      <h1>{{latest_data["air_quality"]}}</h1>
+      <div class="feature-description">Air Quality /500</div>
+      <div class="feature-value">{{latest_data["air_quality"]}}</div>
     </div>
     <div class="feature">
       <div class="feature-icon">
@@ -105,8 +105,8 @@
           />
         </svg>
       </div>
-      <h3>eCO2 ppm</h3>
-      <h1>{{latest_data["eCO2"]}}</h1>
+      <div class="feature-description">eCO2 ppm</div>
+      <div class="feature-value">{{latest_data["eCO2"]}}</div>
     </div>
     <div class="feature">
       <div class="feature-icon">
@@ -126,8 +126,8 @@
           />
         </svg>
       </div>
-      <h3>CO2 ppm</h3>
-      <h1>{{latest_data["CO2"]}}</h1>
+      <div class="feature-description">CO2 ppm</div>
+      <div class="feature-value">{{latest_data["CO2"]}}</div>
     </div>
   </section>
 {% endblock %}

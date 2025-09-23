@@ -25,6 +25,13 @@ def index():
     return render_template("weather/index.html", latest_data=latest_data)
 
 
+@bp.route("/legacy")
+def legacy():
+    latest_data = retrieve_data(limit=1)
+    latest_data = [dict(row) for row in latest_data][0]
+    return render_template("weather/legacy.html", latest_data=latest_data)
+
+
 @bp.route("/visualise")
 def visualise():
     latest_data = retrieve_data(limit=1)

@@ -237,3 +237,4 @@ This will run a `git pull` and restart the Gunicorn server.
 * [Kitronik Air Quality Board](https://github.com/KitronikLtd/Kitronik-Pico-Smart-Air-Quality-Board-MicroPython)
 * [BME68X Sensor API](https://github.com/boschsensortec/BME68x_SensorAPI)
 * [Data sheet for BME688](https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme688-ds000.pdf)
+* [Bootstrap icons](https://icons.getbootstrap.com/) were used for the dashboard

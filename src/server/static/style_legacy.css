@@ -47,6 +47,14 @@ h1 {
   font-weight: 500;
 }
 
+a, a:visited {
+  color: #7a94a9;
+}
+
+a:hover, a:focus {
+  color: #7783b4;
+}
+
 .feature {
   display: inline-block;
   width: 32%;

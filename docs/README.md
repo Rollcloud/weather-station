@@ -223,6 +223,12 @@ poetry export --without-hashes --format=requirements.txt > requirements.txt
 source .venv/bin/activate
 pip install --prefer-binary -r requirements.txt 
 ```
+## To update software on the server:
+Run the update-server script on the server command line:
+```sh
+./update-server.sh
+```
+This will run a `git pull` and restart the Gunicorn server.
 
 ## Development of Pico scripts
 * The ```rp2``` directory mirrors the scripts that will go onto the Raspberry Pi Pico. 

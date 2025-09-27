@@ -54,9 +54,11 @@ def explore():
 def analyse():
     return render_template("weather/analyse.html")
 
+
 @bp.route("/about")
 def about():
     return render_template("weather/about.html")
+
 
 @bp.route("/data", methods=("POST",))
 def post_data():

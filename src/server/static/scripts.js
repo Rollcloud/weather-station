@@ -1,4 +1,4 @@
-const UPDATE_INTERVAL_SECONDS = 60 * 2.5; // 2.5 minutes
+const DATA_UPDATE_INTERVAL_SECONDS = 60 * 2.5; // 2.5 minutes
 
 function updateData() {
     fetch("/api/data") // request latest data from server
@@ -22,4 +22,4 @@ function updateData() {
     .catch(console.error); // log any errors in console
 }
 
-setInterval(updateData, UPDATE_INTERVAL_SECONDS * 1000);
+setInterval(updateData, DATA_UPDATE_INTERVAL_SECONDS * 1000);

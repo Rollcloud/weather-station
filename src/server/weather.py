@@ -80,7 +80,7 @@ def get_data():
     # Get the JSON data from the SQL database
     results = retrieve_data(1)
     results = dict(results[0])
-    results["pressure"] /= 10  # convert pressure to millibars
+    results["pressure"] /= 100  # convert pressure to millibars
     return results
 
 

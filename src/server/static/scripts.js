@@ -1,7 +1,7 @@
 // Uses a mixture of new functions with old syntax to support both modern and legacy browsers.
 // Legacy support is specifically tailored to Firefox Version 5.3 (2) for iOS.
 
-const DATA_UPDATE_INTERVAL_SECONDS = 60 * 2.5; // 2.5 minutes
+const DATA_UPDATE_INTERVAL_SECONDS = 60;
 
 function updateData() {
     if (window.fetch) {
